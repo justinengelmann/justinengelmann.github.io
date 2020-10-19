@@ -3,18 +3,16 @@ layout: page
 title: Contact
 ---
 
-## Address
+If you'd like to get in touch, send me an email or connect on linkedin.
 
-Justin Engelmann
+#### Email
+firstname.lastname at ed.ac.uk
 
-CDT Biomedical AI
+#### Address
 
-Office BC 3.08
-
-Bayes Centre
-
-47 Potterrow 
-
-Edinburgh EH8 9BT
-
+Justin Engelmann  
+CDT Biomedical AI  
+Bayes Centre Office BC 3.08 
+47 Potterrow  
+Edinburgh EH8 9BT  
 United Kingdom
