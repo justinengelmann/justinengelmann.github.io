@@ -12,7 +12,7 @@ firstname.lastname at ed.ac.uk
 
 Justin Engelmann  
 CDT Biomedical AI  
-Bayes Centre Office BC 3.08 
+Bayes Centre Office BC 3.08  
 47 Potterrow  
 Edinburgh EH8 9BT  
 United Kingdom
