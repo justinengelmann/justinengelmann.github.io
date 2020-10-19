@@ -20,7 +20,7 @@ Implemented a novel approach for maximising outcome metrics during an A/B test/R
 
 [<span style="font-size:larger;">Few-shot Object Recognition with Convolutional Neural Networks</span>](https://github.com/justinengelmann/TX2020-Philips-Challenge-Inference)  
 *Eindhoven Tech Experience 2020 - Challenge by Philips*  
-I was one of [21 winners out of over 900 participants](https://brainporteindhoven.com/int/brainport-for-you/work/tech-xperience-winners-2020/). I finetuned a pre-trained VGG16 CNN to recognise one of four products with a small dataset of 20 labelled images per class and wrote a small script for inference on new images.
+I was one of [21 winners out of over 900 participants](https://brainporteindhoven.com/int/brainport-for-you/work/tech-xperience-winners-2020/). I finetuned a pre-trained VGG16 CNN to recognise one of four products with a small dataset of 20 labelled images per class and wrote a script for inference on new images.
 
 [<span style="font-size:larger;">Reducing Ecommerce Returns Costs through Profit-Sensitive Prescriptive Modelling</span>](https://github.com/justinengelmann/Business-Analytics-and-Data-Science-WS1819)  
 *MSc Course Business Analytics and Data Science*  
