@@ -16,7 +16,7 @@ Applied the concept of controllability to a graph of risk interdependence of maj
 
 [<span style="font-size:larger;">Profit-Efficient A/B Testing through Inverse Propensity Score Weighting</span>](https://github.com/justinengelmann/Network-Games-and-Mechanism-Design-SS19)  
 *MSc Seminar Causal Machine Learning*  
-Implemented a novel approach for maximising outcome metrics during an A/B test (Randomised Controlled Trial) and tested it with a simulation study.
+Implemented a novel approach for maximising outcome metrics during an A/B test/Randomised Controlled Trial bz leveraging pre-existing domain knowledge and tested it with a simulation study.
 
 [<span style="font-size:larger;">Few-shot Object Recognition with Convolutional Neural Networks</span>](https://github.com/justinengelmann/TX2020-Philips-Challenge-Inference)  
 *Eindhoven Tech Experience 2020 - Challenge by Philips*  
@@ -24,4 +24,4 @@ I was one of [21 winners out of over 900 participants](https://brainporteindhove
 
 [<span style="font-size:larger;">Reducing Ecommerce Returns Costs through Profit-Sensitive Prescriptive Modelling</span>](https://github.com/justinengelmann/Business-Analytics-and-Data-Science-WS1819)  
 *MSc Course Business Analytics and Data Science*  
-Ranked 2nd out of 118 students in In-Class Kaggle competition for predicting Ecommerce returns which was scored on plain ROC-AUC rather than profit. Implemented an algorithm to create a selective averaging ensemble of heterogeneous base models from scratch. Final ensemble increased profits by 30% compared to the optimal naïve baseline strategy of never intervening. 
+Ranked 2nd out of 118 students in In-Class Kaggle competition for predicting Ecommerce returns which was scored on plain ROC-AUC rather than profit. Implemented an algorithm to create a selective averaging ensemble of heterogeneous base models from scratch which maximises profit rather than AUC. Final ensemble increased profits by 30% compared to the optimal naïve baseline strategy of never intervening. 
