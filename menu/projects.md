@@ -8,7 +8,7 @@ Here's a small selection of projects that I have done. (Still under construction
 
 [<span style="font-size:larger;">Conditional Wasserstein GAN-based Oversampling of Tabular Data for Imbalanced Learning</span>](https://github.com/justinengelmann/GANbasedOversampling)  
 *MSc Thesis*  
-Developed, implemented and tested a novel GAN-based oversampling method that can effectively model tabular data with both categorical and numerical columns. 
+Developed a novel GAN-based oversampling method that can effectively model tabular data with both categorical and numerical columns. Previous methods did not incorporate recent advancements from the literature on generating realistic tabular data with GANs and did not allow for categorical variables, which are commonplace in real-world tabular data. Empirical results evidence the competitiveness of GAN-based oversampling. [\[preprint\]](https://arxiv.org/abs/2008.09202)
 
 [<span style="font-size:larger;">Controllability of Risk in Financial Networks</span>](https://github.com/justinengelmann/Network-Games-and-Mechanism-Design-SS19)  
 *MSc Seminar Network Games and Mechanism Design (Thematic Einstein Semester of the MATH+ Excellence Cluster)*  
@@ -16,7 +16,7 @@ Applied the concept of controllability to a graph of risk interdependence of maj
 
 [<span style="font-size:larger;">Profit-Efficient A/B Testing through Inverse Propensity Score Weighting</span>](https://github.com/justinengelmann/Network-Games-and-Mechanism-Design-SS19)  
 *MSc Seminar Causal Machine Learning*  
-Implemented a novel approach for maximising outcome metrics during an A/B test/Randomised Controlled Trial bz leveraging pre-existing domain knowledge and tested it with a simulation study.
+Implemented a novel approach for maximising outcome metrics during an A/B test/Randomised Controlled Trial by leveraging pre-existing domain knowledge and tested it with a simulation study.
 
 [<span style="font-size:larger;">Few-shot Object Recognition with Convolutional Neural Networks</span>](https://github.com/justinengelmann/TX2020-Philips-Challenge-Inference)  
 *Eindhoven Tech Experience 2020 - Challenge by Philips*  
