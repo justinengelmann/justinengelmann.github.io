@@ -5,6 +5,22 @@ title: Projects
 
 Here's a small selection of projects that I have done.
 
+<span style="font-size:36px;">Controllability of Risk in Financial Networks</span> 
+<span style="font-size:18px;">(seminar Network Games and Mechanism Design)</span>  
+Project description goes here. This is double: normal fontsize
+
+<span style="font-size:36px;">Controllability of Risk in Financial Networks</span> 
+<span style="font-size:27px;">(seminar Network Games and Mechanism Design)</span>  
+Project description goes here. This is double: 1.5 fontsize
+
+<span style="font-size:27px;">Controllability of Risk in Financial Networks</span> 
+<span style="font-size:22.5px;">(seminar Network Games and Mechanism Design)</span>  
+Project description goes here. This is 1.5: 1.25 fontsize
+
+<span style="font-size:36px;">Controllability of Risk in Financial Networks</span> 
+<span style="font-size:25.38px;">(seminar Network Games and Mechanism Design)</span>  
+Project description goes here. This is double sqrt 2 fontsize
+
 <span style="font-size:18px;">default size</span>
 
 <span style="font-size:36px;">double size</span>
