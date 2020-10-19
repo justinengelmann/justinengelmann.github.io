@@ -21,7 +21,7 @@ plugins:             [jekyll-paginate, jekyll-sitemap, jekyll-feed, jekyll-seo-t
 
 # Customise atom feed settings (this is where Jekyll-Feed gets configuration information)
 title:		           'Justin Engelmann'
-description:	       'Biomedical AI at University of Edinburgh'
+description:	       'Biomedical AI at the University of Edinburgh'
 author:              'Justin Engelmann'
 
 # RSS 2.0 can be used instead of Atom by uncommenting following two lines
