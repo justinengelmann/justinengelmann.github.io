@@ -7,4 +7,4 @@ I'm a candidate at the [Centre for Doctoral Training in Biomedical AI](http://we
 
 You can find out more about [my background](\menu\about.html) and [my interests](\menu\interests.html) on this website. 
 
-If you'd like to have a chat, [get in touch!](\menu\contact.html)
+If you'd like to have a chat, [get in touch!](mailto:justin.engelmann@ed.ac.uk)

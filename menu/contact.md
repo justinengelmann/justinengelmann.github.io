@@ -3,10 +3,7 @@ layout: page
 title: Contact
 ---
 
-If you'd like to get in touch, send me an email or connect on linkedin.
-
-#### Email
-firstname.lastname at ed.ac.uk
+If you'd like to get in touch, [send me an email](mailto:justin.engelmann@ed.ac.uk) or [connect on linkedin]( www.linkedin.com/in/engelmann).
 
 #### Address
 
