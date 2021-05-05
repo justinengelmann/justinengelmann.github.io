@@ -25,6 +25,7 @@ Quantitative and qualitative evaluation are promising and we made concrete recom
 Profit-Efficient A/B Testing through Inverse Propensity Score Weighting  
 *MSc Seminar Causal Machine Learning, Grade: 1.3 (German scale)*  
 Implemented a novel approach for maximising outcome metrics during an A/B test by leveraging pre-existing domain knowledge about individual treatment effects and tested it with a simulation study.
+The core idea was to assign idividuals where we expect higher treatment effects to the treatment group with higher probability, and then use Inverse Propensity Score Weighting to reduce bias. 
 
 [Reducing Ecommerce Returns Costs through Profit-Sensitive Prescriptive Modelling](https://github.com/justinengelmann/Business-Analytics-and-Data-Science-WS1819)  
 *MSc Course Business Analytics and Data Science, Grade: 1.0 (German scale, best possible grade)*  
@@ -35,6 +36,11 @@ Ranked 2nd out of 118 students in In-Class Kaggle competition for predicting Eco
 Applied the concept of controllability to a graph of risk interdependence of major financial institutions and computed the minimum input set.
 
 #### Other
-[Few-shot Classification with Convolutional Neural Networks](https://github.com/justinengelmann/TX2020-Philips-Challenge-Inference)  
+[Few-shot Image Classification](https://github.com/justinengelmann/TX2020-Philips-Challenge-Inference)  
 *Eindhoven Tech Experience 2020 - Challenge by Philips*  
 Finetuned a pre-trained VGG16 CNN to recognise one of four products with a small dataset of 20 labelled images per class. One of [21 winners out of over 900 participants](https://brainporteindhoven.com/int/brainport-for-you/work/tech-xperience-winners-2020/).
+
+Churn Prediction for a major German Media Business  
+*Finalist at McKinsey Digital Shapers 2020*  
+Worked as Data Scientist in a cross-functional team to develop a churn prediction tool for a major German Media Business. 
+Explored, cleaned and prepared a large dataset of subscribers and trained a predictive model which achieved very high accuracy. 
