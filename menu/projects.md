@@ -22,6 +22,16 @@ We used a dataset of paired low-quality scans acquired under clinical protocols 
 Quantitative and qualitative evaluation are promising and we made concrete recommendations for validating the method and for devloping it further.
 
 #### Selected Coursework
+Temporally Biased Label Smoothing and Latent Time Regression for Multi-class Problems that represent an Underlying Progression
+*MScR Course Machine Learning Practical Group Project, 72 (UK scale)*  
+We considered two biomedical datasets where the classes represent stages of an underlying progression which have motivated our research: 
+A dataset of retina images, where classes are different stages of disease progression, and a dataset of cell images, where classes are different stages 
+of the cell cycle. We investigate whether we can improve classification performance by encoding the domain knowledge that classes are ordered in time into the training process.
+First, we considered Temporally Biased Label Smoothing, an extension of standard Label Smoothing where non-target classes get probability mass proportional to temporal proximity to the target class. 
+Second, we proposed a Latent Time Regression approach where we try to learn a continuous, one-dimensional variable representing the latent position of a sample in the process.  
+In our experiments, each method outperformed the baselines of standard label smoothing and no label smoothing on one of the datasets but not the other.
+
+
 Profit-Efficient A/B Testing through Inverse Propensity Score Weighting  
 *MSc Seminar Causal Machine Learning, Grade: 1.3 (German scale)*  
 Implemented a novel approach for maximising outcome metrics during an A/B test by leveraging pre-existing domain knowledge about individual treatment effects and tested it with a simulation study.
