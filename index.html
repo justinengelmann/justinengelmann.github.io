@@ -1,0 +1,507 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+    <title>Justin Engelmann</title>
+
+    <meta charset="utf-8"/>
+
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <!--<link rel="icon" href="/resources/jt.png">!-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            font-family: 'DM Sans', sans-serif !important;
+        }
+
+
+        a:link,
+        a:hover,
+        a:visited,
+        a:active {
+            color: #51658C !important;
+        }
+
+        .nodecor:link,
+        .nodecor:hover,
+        .nodecor:visited,
+        .nodecor:active {
+            color: #171C26 !important;
+            text-decoration: none;
+        }
+
+        .boldtext {
+            font-weight: 700 !important;
+        }
+
+        .semiboldtext {
+            font-weight: 500 !important;
+        }
+
+        .smalltext {
+            font-size: .8em;
+        }
+
+        #name {
+            font-size: 2.6em;
+            line-height: 1em;
+            margin-top: .5em;
+            margin-bottom: .2em;
+        }
+
+        #title {
+            font-size: 1.2em;
+        }
+
+        #email {
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: .9em;
+            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        #picpad {
+            margin-top: .5em;
+            margin-bottom: .5em;
+        }
+
+        #overview {
+            font-size: 1.2em;
+        }
+
+        #projects {
+            font-size: 1.1em;
+        }
+
+        #projects li {
+            margin-top: .5em;
+        }
+
+        @media only screen and (max-width: 900px) {
+            #fadeshow1 {
+                display: none;
+            }
+        }
+
+        .content {
+            margin: auto;
+            max-width: 1000px;
+            padding: 10px;
+        }
+
+        .subcontent {
+            margin-top: 1em;
+            margin-bottom: 1.5em;
+        }
+
+        .pubtitle {
+            font-weight: 500;
+        }
+
+
+        .pubyear {
+            margin-top: 12px;
+            clear: both;
+            font-size: 1.2em;
+            color: 222;
+        }
+
+        .pubaward {
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        /* Add a card effect for articles */
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .authlist {
+            font-size: 16px;
+            color: #8697A6;
+        }
+
+        .conference {
+            font-size: 16px;
+            color: #2F3D59;
+            font-weight: bold;
+        }
+
+        .title {
+            font-size: 18px;
+            color: #51658C;
+            font-weight: bold;
+        }
+
+        .date {
+            font-size: 12px;
+        }
+
+        .abstract {
+            font-size: 15px;
+            color: #171C26;
+        }
+    </style>
+    <script>
+        function loadTime() {
+            document.getElementById("demo").innerHTML = document.lastModified;
+        }
+    </script>
+</head>
+
+<body onload="loadTime();">
+
+<div class="content" style="margin-top: 5.5rem;">
+
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-8">
+            <div id="name">
+                <div class="semiboldtext">Justin Engelmann</div>
+            </div>
+            <div id="title" style="margin-top: 1.5rem;">
+
+                <div style="margin-top: 1.2rem;"></div>
+                <div><a href="mailto: justin.engelmann@ed.ac.uk"><img src="resources/mail.svg"
+                                                                      style="width:30px;height:30px;margin-bottom:0.2em;">
+                    <p style="color: #171C26;display: inline"> Mail</p></a></div>
+                <div style="margin-top: 0.3rem;"></div>
+                <div><a href="https://github.com/JustinEngelmann"><img src="resources/github.svg"
+                                                                       style="width:30px;height:30px;margin-bottom:0.3em;">
+                    <p style="color: #171C26;display: inline"> Github</p></a></div>
+                <div style="margin-top: 0.3rem;"></div>
+                <div><a href="https://www.linkedin.com/in/engelmann"><img src="resources/linkedin.svg"
+                                                                          style="width:30px;height:30px;margin-bottom:0.2em;">
+                    <p style="color: #171C26;display: inline"> LinkedIn</p></a></div>
+                <div style="margin-top: 0.3rem;"></div>
+                <div><a href="https://scholar.google.com/citations?user=ckuoXnYAAAAJ"><img src="resources/scholar.svg"
+                                                                                           style="width:30px;height:30px;margin-bottom:0.2em;">
+                    <p style="color: #171C26;display: inline"> Google Scholar</p></a></div>
+                <div style="margin-top: 0.3rem;"></div>
+                <!--          <div><a href="resources/cv_short_new.pdf"><img src="resources/resume.svg" style="width:30px;height:30px;margin-bottom:0.2em;"><p style="color: #171C26;display: inline">  CV</p></a></div>-->
+                <!--          <div style="margin-top: 0.3rem;"></div>-->
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <img class="float-right" src="resources/profile.jpeg" id="fadeshow1" alt="pdb" id="pdb-pic"
+                 style="height: 250px; margin-top: 20px;">
+        </div>
+
+    </div>
+
+    <div class="col-sm-offset-2">
+        <div id="overview" style="margin-top: 1.5rem;">
+
+            <hr>
+
+            <p>
+                I'm a PhD student in the CDT Biomedical AI at the University of Edinburgh. My supervisors are Prof.
+                Miguel O. Bernabeu and <a href="https://bayeswatch.com/">Prof. Amos Storkey</a>.
+            </p>
+
+            <p>
+                I primarily work on applying machine learning to retinal imaging (pictures of the back of the eye) to
+                automatically detect eye disease and to predict systemic disease risk (e.g. cardio- and neuro-vascular
+                disease). I’m also interested in the broader application of machine learning to biomedical data (e.g.
+                electronic health records, cell microscopy, ECGs, etc.) and in developing new machine learning methods
+                that address specific challenges in biomedical applications.
+
+            <p>
+                Before coming to Edinburgh, I completed an MSc in Business Administration (Humboldt University Berlin)
+                and a BA in Philosophy, Politics and Economics (University of Oxford), and some internships in
+                management consultancy (BCG), data science consultancy (BCG GAMMA) and at some startups.
+            </p>
+        </div>
+    </div>
+
+
+    <!--    <div class="col-sm-offset-2" >-->
+    <!--      <div style="margin-top: 3.5rem;"></div>-->
+    <!--      <div>-->
+    <!--        <h3>Preprint Papers</h4>-->
+
+    <!--          -->
+    <!--          <div id="publist">-->
+    <!--            <div class="container card">-->
+    <!--              <div class="row">-->
+    <!--                <div class="col-sm-3">-->
+    <!--                  <img src="resources/ppal_new.png" id="fadeshow1" style="width:220px;margin-top:1.8em;">-->
+    <!--                </div>-->
+    <!--                <div class="col-sm-9">-->
+    <!--                  <style>-->
+    <!--                    p { -->
+    <!--                      margin-top: 0em ;-->
+    <!--                      margin-bottom: 0.4em ; -->
+    <!--                    }-->
+    <!--                  </style>-->
+    <!--                    <p class="title">-->
+    <!--                      <a class="pubtitle" href="https://arxiv.org/pdf/2211.11612.pdf" style="font-weight: bold;">Plug and Play Active Learning for Object Detection</a>-->
+    <!--                    </p> -->
+    <!--                    <p class="conference">Preprint, 11/2022          <a class="pubtitle" href="https://github.com/ChenhongyiYang/PPAL" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                  <p class="authlist"><span style="font-weight: bold;">Chenhongyi Yang</span>, Lichao Huang, Elliot J. Crowley.</p>-->
+    <!--                  <p class="abstract">-->
+    <!--                    PPAL is a plug-and-play active learning framework for object detection. It is based on two innotations: a novel object-level uncertainty re-weighting mechanism and a new similarity computing method for designed multi-instance images.-->
+    <!--                  </p>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--          </div>-->
+
+    <!--          <div id="publist">-->
+    <!--            <div class="container card">-->
+    <!--              <div class="row">-->
+    <!--                <div class="col-sm-3">-->
+    <!--                  <img src="resources/detrdistill_new.png" id="fadeshow1" style="width:220px;margin-top:0.2em;">-->
+    <!--                </div>-->
+    <!--                <div class="col-sm-9">-->
+    <!--                  <style>-->
+    <!--                    p { -->
+    <!--                      margin-top: 0em ;-->
+    <!--                      margin-bottom: 0.4em ; -->
+    <!--                    }-->
+    <!--                  </style>-->
+    <!--                    <p class="title">-->
+    <!--                      <a class="pubtitle" href="https://arxiv.org/pdf/2211.10156.pdf" style="font-weight: bold;">DETRDistill: A Universal Knowledge Distillation Framework for DETR-families</a>-->
+    <!--                    </p> -->
+    <!--                    <p class="conference">Preprint, 11/2022</p>-->
+    <!--                  <p class="authlist">Jiahao Chang*, Shuo Wang*, Guangkai Xu*, Zehui Chen, <span style="font-weight: bold;">Chenhongyi Yang</span>, Feng Zhao</p>-->
+    <!--                  <p class="abstract">-->
+    <!--                    DETRDistill is a knolwedge distillation framework designed for the DETR family, the transformer-based object detection architectures. The distillation is conducted in three parts: instance query distillation, visual feature distillation and bipartite matching distillation.-->
+    <!--                  </p>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--          </div>-->
+
+    <!--          <div id="publist">-->
+    <!--            <div class="container card">-->
+    <!--              <div class="row">-->
+    <!--                <div class="col-sm-3">-->
+    <!--                  <img src="resources/ccop_new.png" id="fadeshow1" style="width:220px;margin-top:0.6em;">-->
+    <!--                </div>-->
+    <!--                <div class="col-sm-9">-->
+    <!--                  <style>-->
+    <!--                    p { -->
+    <!--                      margin-top: 0em ;-->
+    <!--                      margin-bottom: 0.4em ; -->
+    <!--                    }-->
+    <!--                  </style>-->
+    <!--                    <p class="title">-->
+    <!--                      <a class="pubtitle" href="https://arxiv.org/pdf/2111.13651.pdf" style="font-weight: bold;">Contrastive Object-level Pre-training with Spatial Noise Curriculum Learning</a>-->
+    <!--                    </p> -->
+    <!--                    <p class="conference">Preprint, 11/2021          <a class="pubtitle" href="https://github.com/ChenhongyiYang/CCOP" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                  <p class="authlist"><span style="font-weight: bold;">Chenhongyi Yang</span>, Lichao Huang, Elliot J. Crowley.</p>-->
+    <!--                  <p class="abstract">-->
+    <!--                    CCOP is an object-level self-supervised learning framework. It is based on contrasting the regional features of rough object boxes, which are found using an unsupervised way. We also develop a curriculum learning mechanism to alleviate the gradient vanishing problem.-->
+    <!--                  </p>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--          </div>-->
+
+    <!--      </div>-->
+    <!--    </div>-->
+
+    <!--    <div class="col-sm-offset-2" style="margin-bottom:6.5rem;">-->
+
+    <!--      <div style="margin-top: 3.5rem;"></div>-->
+    <!--      <div>-->
+    <!--        <h3>Conference and Journal Papers</h4>-->
+    <!--            <div id="publist">-->
+    <!--              <div class="container card">-->
+    <!--                <div class="row">-->
+    <!--                  <div class="col-sm-3">-->
+    <!--                    <img src="resources/gpvit_release_intro.png" id="fadeshow1" style="width:220px;margin-top:1.8em;">-->
+    <!--                  </div>-->
+    <!--                  <div class="col-sm-9">-->
+    <!--                    <style>-->
+    <!--                      p { -->
+    <!--                        margin-top: 0em ;-->
+    <!--                        margin-bottom: 0.4em ; -->
+    <!--                      }-->
+    <!--                    </style>-->
+    <!--                      <p class="title">-->
+    <!--                        <a class="pubtitle" href="https://arxiv.org/pdf/2212.06795.pdf" style="font-weight: bold;">GPViT: A High Resolution Non-Hierarchical Vision Transformer with Group Propagation</a>-->
+    <!--                      </p> -->
+    <!--                      <p class="conference">ICLR 2023 (Spotlight)          <a class="pubtitle" href="https://github.com/ChenhongyiYang/GPViT" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                    <p class="authlist"><span style="font-weight: bold;">Chenhongyi Yang*</span>, Jiarui Xu*, Shalini De Mello, Elliot J. Crowley, Xiaolong Wang.</p>-->
+    <!--                    <p class="abstract">-->
+    <!--                      Group Propagation Vision Transformer (GPViT) is a non-hierarchical vision transformer designed for general visual recognition with high-resolution features, whose core is the Group Propagation block that can exchange global information with a linear complexity. -->
+    <!--                    </p>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+
+    <!--            <div id="publist">-->
+    <!--              <div class="container card">-->
+    <!--                <div class="row">-->
+    <!--                  <div class="col-sm-3">-->
+    <!--                    <img src="resources/pgd_new.png" id="fadeshow1" style="width:220px;margin-top:-0.4em;">-->
+    <!--                  </div>-->
+    <!--                  <div class="col-sm-9">-->
+    <!--                    <style>-->
+    <!--                      p { -->
+    <!--                        margin-top: 0em ;-->
+    <!--                        margin-bottom: 0.4em ; -->
+    <!--                      }-->
+    <!--                    </style>-->
+    <!--                      <p class="title">-->
+    <!--                        <a class="pubtitle" href="https://arxiv.org/pdf/2203.05469.pdf" style="font-weight: bold;">Prediction-Guided Distillation for Dense Object Detection</a>-->
+    <!--                      </p> -->
+    <!--                    <p class="conference">ECCV 2022          <a class="pubtitle" href="https://github.com/ChenhongyiYang/PGD" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                    <p class="authlist"><span style="font-weight: bold;">Chenhongyi Yang</span>, Mateusz Ochal, Amos Storkey, Elliot J. Crowley.</p>-->
+    <!--                    <p class="abstract">-->
+    <!--                      PGD is a high-performing knowledge distillation framework designed for single-stage object detectors. It distills every object in a few key predictive regions and uses an adaptive weighting scheme to compute the foreground feature imitation loss in those regions. -->
+    <!--                    </p>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+
+    <!--            <div id="publist">-->
+    <!--              <div class="container card">-->
+    <!--                <div class="row">-->
+    <!--                  <div class="col-sm-3">-->
+    <!--                    <img src="resources/querydet_new.png" id="fadeshow1" style="width:220px;margin-top:0.9em;">-->
+    <!--                  </div>-->
+    <!--                  <div class="col-sm-9">-->
+    <!--                    <style>-->
+    <!--                      p { -->
+    <!--                        margin-top: 0em ;-->
+    <!--                        margin-bottom: 0.4em ; -->
+    <!--                      }-->
+    <!--                    </style>-->
+    <!--                      <p class="title">-->
+    <!--                        <a class="pubtitle" href="https://openaccess.thecvf.com/content/CVPR2022/papers/Yang_QueryDet_Cascaded_Sparse_Query_for_Accelerating_High-Resolution_Small_Object_Detection_CVPR_2022_paper.pdf" style="font-weight: bold;">QueryDet: Cascaded Sparse Query for Accelerating High-Resolution Small Object Detection</a>-->
+    <!--                      </p> -->
+    <!--                    <p class="conference"> CVPR 2022 (Oral)          <a class="pubtitle" href="https://github.com/ChenhongyiYang/QueryDet-PyTorch" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                    <p class="authlist"><span style="font-weight: bold;">Chenhongyi Yang</span>, Zehao Huang, Naiyan Wang.</p>-->
+    <!--                    <p class="abstract">-->
+    <!--                      QueryDet achieves fast and accurate small object detection. Its core is the cascaded sparse query mechanism: rough locations of small objects are first found on low-resolution features, then those objects are accurately detected on high-resolution features using the efficient sparse convolution.-->
+    <!--                    </p>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+
+    <!--            <div id="publist">-->
+    <!--              <div class="container card">-->
+    <!--                <div class="row">-->
+    <!--                  <div class="col-sm-3">-->
+    <!--                    <img src="resources/ddod_trans.png" id="fadeshow1" style="width:220px;margin-top:0.4em;">-->
+    <!--                  </div>-->
+    <!--                  <div class="col-sm-9">-->
+    <!--                    <style>-->
+    <!--                      p { -->
+    <!--                        margin-top: 0em ;-->
+    <!--                        margin-bottom: 0.4em ; -->
+    <!--                      }-->
+    <!--                    </style>-->
+    <!--                      <p class="title">-->
+    <!--                        <a class="pubtitle" href="https://ieeexplore.ieee.org/abstract/document/10093087" style="font-weight: bold;">DDOD: Dive Deeper into the Disentanglement of Object Detector</a>-->
+    <!--                      </p> -->
+    <!--                    <p class="conference">IEEE Transactions on Multimedia (TMM)          <a class="pubtitle" href="https://github.com/zehuichen123/DDOD" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                    <p class="authlist">Zehui Chen, <span style="font-weight: bold;">Chenhongyi Yang</span>, Qiaofei Li, Feng Zhao, Zheng-Jun Zha, Feng Wu.</p>-->
+    <!--                    <p class="abstract">-->
+    <!--                      This work studies the conjunction problem and extends the DDOD structure to all three forms of modern object detectors: one-stage, two stage and transformer-based detectors.-->
+    <!--                    </p>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+
+    <!--            <div id="publist">-->
+    <!--              <div class="container card">-->
+    <!--                <div class="row">-->
+    <!--                  <div class="col-sm-3">-->
+    <!--                    <img src="resources/ddod_new.png" id="fadeshow1" style="width:220px;margin-top:0.4em;">-->
+    <!--                  </div>-->
+    <!--                  <div class="col-sm-9">-->
+    <!--                    <style>-->
+    <!--                      p { -->
+    <!--                        margin-top: 0em ;-->
+    <!--                        margin-bottom: 0.4em ; -->
+    <!--                      }-->
+    <!--                    </style>-->
+    <!--                      <p class="title">-->
+    <!--                        <a class="pubtitle" href="https://dl.acm.org/doi/10.1145/3474085.3475351" style="font-weight: bold;">Disentangle Your Dense Object Detector</a>-->
+    <!--                      </p> -->
+    <!--                    <p class="conference">ACM Multimedia 2021 (Oral)          <a class="pubtitle" href="https://github.com/zehuichen123/DDOD" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                    <p class="authlist">Zehui Chen*, <span style="font-weight: bold;">Chenhongyi Yang*</span>, Qiaofei Li, Feng Zhao, Zheng-Jun Zha, Feng Wu.</p>-->
+    <!--                    <p class="abstract">-->
+    <!--                      We investigated the conjunction problem in the modern dense object detectors, based on which we proposed the Disentangled Dense Object Detector (DDOD) where three effective disentanglement mechanisms were designed for boosting dense object detectors' performance.-->
+    <!--                    </p>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+
+    <!--            <div id="publist">-->
+    <!--              <div class="container card">-->
+    <!--                <div class="row">-->
+    <!--                  <div class="col-sm-3">-->
+    <!--                    <img src="resources/bisida_new.png" id="fadeshow1" style="width:220px;height:190px;margin-top:0.5em;">-->
+    <!--                  </div>-->
+    <!--                  <div class="col-sm-9">-->
+    <!--                    <style>-->
+    <!--                      p { -->
+    <!--                        margin-top: 0em ;-->
+    <!--                        margin-bottom: 0.4em ; -->
+    <!--                      }-->
+    <!--                    </style>-->
+    <!--                      <p class="title">-->
+    <!--                        <a class="pubtitle" href="https://www.aaai.org/AAAI21Papers/AAAI-8431.WangK.pdf" style="font-weight: bold;">Consistency Regularization with High-dimensional Non-adversarial Source-guided Perturbation for Unsupervised Domain Adaptation in Segmentation</a>-->
+    <!--                      </p> -->
+    <!--                    <p class="conference">AAAI 2021          <a class="pubtitle" href="https://github.com/wangkaihong/BiSIDA" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                    <p class="authlist">Kaihong Wang, <span style="font-weight: bold;">Chenhongyi Yang</span>, Margrit Betke.</p>-->
+    <!--                    <p class="abstract">-->
+    <!--                      BiSIDA is a bidirectional style-induced domain adaptation method that employs consistency regularization to exploit information from the unlabeled target domain dataset. BiSIDA is easy to train because the domain adaptation is achieved with a simple nerual style transfer model. -->
+    <!--                    </p>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+
+    <!--            <div id="publist">-->
+    <!--              <div class="container card">-->
+    <!--                <div class="row">-->
+    <!--                  <div class="col-sm-3">-->
+    <!--                    <img src="resources/sgnms_new.png" id="fadeshow1" style="width:220px;margin-top:0.4em;">-->
+    <!--                  </div>-->
+    <!--                  <div class="col-sm-9">-->
+    <!--                    <style>-->
+    <!--                      p { -->
+    <!--                        margin-top: 0em ;-->
+    <!--                        margin-bottom: 0.4em ; -->
+    <!--                      }-->
+    <!--                    </style>-->
+    <!--                      <p class="title">-->
+    <!--                        <a class="pubtitle" href="https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123630511.pdf" style="font-weight: bold;">Learning to Separate: Detecting Heavily-Occluded Objects in Urban Scenes</a>-->
+    <!--                      </p> -->
+    <!--                    <p class="conference">ECCV 2020          <a class="pubtitle" href="https://github.com/ChenhongyiYang/SG-NMS" style="font-weight: bold;"><img src="resources/github.svg" style="margin-bottom: 0.3em;width:28px;height:28px;"></a></p>-->
+    <!--                    <p class="authlist"><span style="font-weight: bold;">Chenhongyi Yang</span>, Vitaly Ablavsky, Kaihong Wang, Qi Feng, Margrit Betke.</p>-->
+    <!--                    <p class="abstract">-->
+    <!--                      SG-NMS is a new non-maximum-suppression algorithm designed for detecting heavily-occluded objects. It is based on the semantic-geometry embedding mechanism where the embeddings of boxes belonging to the same object are pulled together and embeddings of boxes belong to different objects are pushed away. Then NMS is conducted based on the embedding distances.-->
+    <!--                    </p>-->
+    <!--                  </div>-->
+    <!--                </div>-->
+    <!--              </div>-->
+    <!--            </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+
+    <!--    <p>Last updated on: <span id="demo"></span></p>-->
+
+
+    <p>Thanks to <a href="https://jack-willturner.github.io/">Jack Turner</a> and <a href="https://chenhongyiyang.com/">Chenhongyi
+        Yang</a> for the website template.</p>
+</div>
+</body>
+
+</html>
