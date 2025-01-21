@@ -1,25 +1,29 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const imageInputs = document.querySelectorAll('input[name="image"]');
-  const resolutionInputs = document.querySelectorAll('input[name="resolution"]');
-  const downscaleInputs = document.querySelectorAll('input[name="downscale"]');
-  const upscaleInputs = document.querySelectorAll('input[name="upscale"]');
-  const outputImage = document.getElementById('output-image');
-  const imageCaption = document.getElementById('image-caption');
+document.querySelectorAll('.option-button').forEach(button => {
+    button.addEventListener('click', function () {
+        const group = this.dataset.group;
 
-  function updateImage() {
-    const image = document.querySelector('input[name="image"]:checked').value;
-    const resolution = document.querySelector('input[name="resolution"]:checked').value;
-    const downscale = document.querySelector('input[name="downscale"]:checked').value;
-    const upscale = document.querySelector('input[name="upscale"]:checked').value;
+        // Remove 'active' class from all buttons in the same group
+        document.querySelectorAll(`.option-button[data-group="${group}"]`).forEach(btn => btn.classList.remove('active'));
 
-    outputImage.src = `resolution/images/${image}_processed/${resolution}_${downscale}_${upscale}.png`;
-    imageCaption.textContent = `${image.replace(/_/g, ' ')} | ${resolution}px | ${downscale} Downscale | ${upscale} Upscale`;
-  }
+        // Add 'active' class to the clicked button
+        this.classList.add('active');
 
-  [imageInputs, resolutionInputs, downscaleInputs, upscaleInputs].forEach(group => {
-    group.forEach(input => input.addEventListener('change', updateImage));
-  });
-
-  // Set default image
-  updateImage();
+        // Update the image based on the selection
+        updateImage();
+    });
 });
+
+function updateImage() {
+    const selectedImage = document.querySelector('.option-button[data-group="image"].active').dataset.value;
+    const selectedResolution = document.querySelector('.option-button[data-group="resolution"].active').dataset.value;
+
+    const outputImage = document.getElementById('output-image');
+    const imageCaption = document.getElementById('image-caption');
+
+    // Update the image source and caption
+    outputImage.src = `resolution/images/${selectedImage}_processed/${selectedImage}_${selectedResolution}_antialias_antialias.png`;
+    imageCaption.textContent = `${selectedImage.replace(/_/g, ' ')} | ${selectedResolution}px | Bilinear Downscale | Bilinear Upscale`;
+}
+
+// Initialize the default image
+updateImage();
