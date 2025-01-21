@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Imaging Resolution Demo</title>
+  <link rel="stylesheet" href="resolution/style.css">
+</head>
+<body>
+  <header>
+    <h1>Exploring Resolution in Medical Imaging</h1>
+    <p>A wee interactive demo to understand how resolution and scaling methods affect retinal images.</p>
+  </header>
+
+  <section class="controls">
+    <label for="image-select">Image:</label>
+    <select id="image-select">
+<!--      <option value="fundus1">Fundus Image 1</option>-->
+<!--      <option value="fundus2">Fundus Image 2</option>-->
+      <option value="oct1">OCT B-scan</option>
+<!--      <option value="oct2">OCT B-scan 2</option>-->
+    </select>
+
+    <label for="resolution-select">Resolution:</label>
+    <select id="resolution-select">
+      <option value="1024">1024</option>
+      <option value="768">768</option>
+      <option value="512">512</option>
+      <option value="256">256</option>
+      <option value="128">128</option>
+      <option value="64">64</option>
+      <option value="32">32</option>
+    </select>
+
+    <label for="downscale-select">Downscaling:</label>
+    <select id="downscale-select">
+      <option value="bilinear">Bilinear</option>
+      <option value="antialias">Bilinear with anti-alias</option>
+      <option value="nearest">Nearest</option>
+    </select>
+
+    <label for="upscale-select">Upscaling for Display:</label>
+    <select id="upscale-select">
+      <option value="bilinear">Bilinear</option>
+      <option value="antialias">Bilinear with anti-alias</option>
+      <option value="nearest">Nearest</option>
+    </select>
+  </section>
+
+  <section class="image-display">
+    <img id="output-image" src="resolution/images/fundus1/1024_bilinear.png" alt="Medical Image">
+    <p id="image-caption">Fundus Image 1 | 1024px | Bilinear Downscale | Bilinear Upscale</p>
+  </section>
+
+  <section class="info">
+    <h2>Does resolution matter?</h2>
+    <p>It does! The image, the more information there is in the image! However, the larger it is, the more storage space and compute for processing is needed. And even very low resolutions can be surprisingly informative.</p>
+    <p>There is other factors to consider: How the images are resized (above!), whether you preserve the aspect ratio (to avoid "squashing non-square images), and how they are compressed. A 1024x1024 JPG image saved with 85 quality and colour space subsampling can look worse than an uncompressed 768x768 images!</p>
+      <p>Example images taken from DRIVE, IDRiD and the demo images from Choroidalyzer.</p>
+  </section>
+
+  <footer>
+    <p>By Justin Engelmann</p>
+  </footer>
+
+  <script src="resolution/script.js"></script>
+</body>
+</html>
