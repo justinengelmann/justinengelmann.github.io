@@ -1,68 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Medical Imaging Resolution Demo</title>
-  <link rel="stylesheet" href="resolution/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retinal Imaging Resolution Demo</title>
+    <link rel="stylesheet" href="resolution/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            text-align: center;
+        }
+
+        header {
+            background-color: #e9ecef;
+            padding: 20px 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        header p {
+            margin: 10px 0 0;
+        }
+
+        .controls {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            flex: 1;
+            text-align: left;
+        }
+
+        .control-group .options {
+            flex: 2;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .control-group .options label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .control-group .options input {
+            margin-right: 5px;
+        }
+
+        .image-display {
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .image-display img {
+            width: 100%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background: #343a40;
+            color: #fff;
+            padding: 10px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Exploring Resolution in Medical Imaging</h1>
-    <p>A wee interactive demo to understand how resolution and scaling methods affect retinal images.</p>
-  </header>
+<header>
+    <h1>Exploring Resolution in Retinal Imaging</h1>
+    <p>Discover how image resolution and scaling methods affect the quality and clarity of retinal images.</p>
+</header>
 
-  <section class="controls">
-    <label for="image-select">Image:</label>
-    <select id="image-select">
-<!--      <option value="fundus1">Fundus Image 1</option>-->
-<!--      <option value="fundus2">Fundus Image 2</option>-->
-      <option value="oct1">OCT B-scan</option>
-<!--      <option value="oct2">OCT B-scan 2</option>-->
-    </select>
+<section class="controls">
+    <div class="control-group">
+        <label for="image-select">Image:</label>
+        <div class="options">
+            <label><input type="radio" name="image" value="FundusImage_1"> Colour fundus image</label>
+            <label><input type="radio" name="image" value="OCT_bscan_1"> OCT B-scan</label>
+        </div>
+    </div>
 
-    <label for="resolution-select">Resolution:</label>
-    <select id="resolution-select">
-      <option value="1024">1024</option>
-      <option value="768">768</option>
-      <option value="512">512</option>
-      <option value="256">256</option>
-      <option value="128">128</option>
-      <option value="64">64</option>
-      <option value="32">32</option>
-    </select>
+    <div class="control-group">
+        <label for="resolution-select">Resolution:</label>
+        <div class="options">
+            <label><input type="radio" name="resolution" value="1024"> 1024</label>
+            <label><input type="radio" name="resolution" value="768"> 768</label>
+            <label><input type="radio" name="resolution" value="512"> 512</label>
+            <label><input type="radio" name="resolution" value="256"> 256</label>
+            <label><input type="radio" name="resolution" value="128"> 128</label>
+            <label><input type="radio" name="resolution" value="64"> 64</label>
+            <label><input type="radio" name="resolution" value="32"> 32</label>
+        </div>
+    </div>
 
-    <label for="downscale-select">Downscaling:</label>
-    <select id="downscale-select">
-      <option value="bilinear">Bilinear</option>
-      <option value="antialias">Bilinear with anti-alias</option>
-      <option value="nearest">Nearest</option>
-    </select>
+    <div class="control-group">
+        <label for="downscale-select">Downscaling:</label>
+        <div class="options">
+            <label><input type="radio" name="downscale" value="bilinear"> Bilinear</label>
+            <label><input type="radio" name="downscale" value="antialias"> Bilinear with anti-alias</label>
+            <label><input type="radio" name="downscale" value="nearest"> Nearest</label>
+        </div>
+    </div>
 
-    <label for="upscale-select">Upscaling for Display:</label>
-    <select id="upscale-select">
-      <option value="bilinear">Bilinear</option>
-      <option value="antialias">Bilinear with anti-alias</option>
-      <option value="nearest">Nearest</option>
-    </select>
-  </section>
+    <div class="control-group">
+        <label for="upscale-select">Upscaling for Display:</label>
+        <div class="options">
+            <label><input type="radio" name="upscale" value="bilinear"> Bilinear</label>
+            <label><input type="radio" name="upscale" value="antialias"> Bilinear with anti-alias</label>
+            <label><input type="radio" name="upscale" value="nearest"> Nearest</label>
+        </div>
+    </div>
+</section>
 
-  <section class="image-display">
-    <img id="output-image" src="resolution/images/fundus1/1024_bilinear.png" alt="Medical Image">
+<section class="image-display">
+    <img id="output-image" src="resolution/images/FundusImage_1_processed/1024_bilinear_antialias.png"
+         alt="Medical Image">
     <p id="image-caption">Fundus Image 1 | 1024px | Bilinear Downscale | Bilinear Upscale</p>
-  </section>
+</section>
 
-  <section class="info">
-    <h2>Does resolution matter?</h2>
-    <p>It does! The image, the more information there is in the image! However, the larger it is, the more storage space and compute for processing is needed. And even very low resolutions can be surprisingly informative.</p>
-    <p>There is other factors to consider: How the images are resized (above!), whether you preserve the aspect ratio (to avoid "squashing non-square images), and how they are compressed. A 1024x1024 JPG image saved with 85 quality and colour space subsampling can look worse than an uncompressed 768x768 images!</p>
-      <p>Example images taken from DRIVE, IDRiD and the demo images from Choroidalyzer.</p>
-  </section>
+<section class="info">
+    <p>Yes, resolution plays a significant role in image clarity and detail. Higher resolutions capture more
+        information, making it easier to analyze fine structures. However, they also require more storage and
+        computational resources.</p>
+    <p>Even lower resolutions can be surprisingly informative, as they can highlight key patterns while reducing storage
+        and processing demands. The choice of scaling methods also impacts how well details are preserved during
+        resizing.</p>
+    <p>For instance, a 1024x1024 JPEG image compressed with 85% quality might appear worse than an uncompressed 768x768
+        image due to artifacts from compression and scaling.</p>
+    <p>The example images used here come from the iChallenge GAMMA dataset and demo images from Choroidalyzer. Explore
+        and observe how resolution and scaling methods affect image quality!</p>
+</section>
 
-  <footer>
+<footer>
     <p>By Justin Engelmann</p>
-  </footer>
+</footer>
 
-  <script src="resolution/script.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const imageInputs = document.querySelectorAll('input[name="image"]');
+        const resolutionInputs = document.querySelectorAll('input[name="resolution"]');
+        const downscaleInputs = document.querySelectorAll('input[name="downscale"]');
+        const upscaleInputs = document.querySelectorAll('input[name="upscale"]');
+        const outputImage = document.getElementById('output-image');
+        const imageCaption = document.getElementById('image-caption');
+
+        function updateImage() {
+            const image = document.querySelector('input[name="image"]:checked').value;
+            const resolution = document.querySelector('input[name="resolution"]:checked').value;
+            const downscale = document.querySelector('input[name="downscale"]:checked').value;
+            const upscale = document.querySelector('input[name="upscale"]:checked').value;
+
+            outputImage.src = `resolution/images/${image}_processed/${resolution}_${downscale}_${upscale}.png`;
+            imageCaption.textContent = `${image.replace(/_/g, ' ')} | ${resolution}px | ${downscale} Downscale | ${upscale} Upscale`;
+        }
+
+        [imageInputs, resolutionInputs, downscaleInputs, upscaleInputs].forEach(group => {
+            group.forEach(input => input.addEventListener('change', updateImage));
+        });
+
+        // Set default image
+        updateImage();
+    });
+</script>
 </body>
 </html>

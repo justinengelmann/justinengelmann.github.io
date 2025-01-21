@@ -1,27 +1,25 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const imageSelect = document.getElementById("image-select");
-  const resolutionSelect = document.getElementById("resolution-select");
-  const downscaleSelect = document.getElementById("downscale-select");
-  const upscaleSelect = document.getElementById("upscale-select");
-  const outputImage = document.getElementById("output-image");
-  const imageCaption = document.getElementById("image-caption");
+document.addEventListener('DOMContentLoaded', () => {
+  const imageInputs = document.querySelectorAll('input[name="image"]');
+  const resolutionInputs = document.querySelectorAll('input[name="resolution"]');
+  const downscaleInputs = document.querySelectorAll('input[name="downscale"]');
+  const upscaleInputs = document.querySelectorAll('input[name="upscale"]');
+  const outputImage = document.getElementById('output-image');
+  const imageCaption = document.getElementById('image-caption');
 
   function updateImage() {
-    const image = imageSelect.value;
-    const resolution = resolutionSelect.value;
-    const downscale = downscaleSelect.value;
+    const image = document.querySelector('input[name="image"]:checked').value;
+    const resolution = document.querySelector('input[name="resolution"]:checked').value;
+    const downscale = document.querySelector('input[name="downscale"]:checked').value;
+    const upscale = document.querySelector('input[name="upscale"]:checked').value;
 
-    // Update image source
-    outputImage.src = `images/${image}/${resolution}_${downscale}.png`;
-
-    // Update caption
-    imageCaption.textContent = `${image.replace(/([A-Z])/g, ' $1')} | ${resolution}px | ${downscale} Downscale`;
+    outputImage.src = `resolution/images/${image}_processed/${resolution}_${downscale}_${upscale}.png`;
+    imageCaption.textContent = `${image.replace(/_/g, ' ')} | ${resolution}px | ${downscale} Downscale | ${upscale} Upscale`;
   }
 
-  [imageSelect, resolutionSelect, downscaleSelect, upscaleSelect].forEach(el => {
-    el.addEventListener("change", updateImage);
+  [imageInputs, resolutionInputs, downscaleInputs, upscaleInputs].forEach(group => {
+    group.forEach(input => input.addEventListener('change', updateImage));
   });
 
-  // Initialize with default
+  // Set default image
   updateImage();
 });
