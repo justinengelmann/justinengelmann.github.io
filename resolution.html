@@ -15,41 +15,66 @@
 <main>
     <section class="controls">
         <div class="control-group">
-            <label for="image-select">Image:</label>
+            <label>Image:</label>
             <div class="options">
-                <button class="option-button active" data-group="image" data-value="FundusImage_1">Colour fundus image</button>
+                <button class="option-button active" data-group="image" data-value="FundusImage_1">Colour fundus image
+                </button>
                 <button class="option-button" data-group="image" data-value="OCT_bscan_1">OCT B-scan</button>
             </div>
         </div>
 
         <div class="control-group">
-            <label for="resolution-select">Resolution:</label>
-            <div class="options">
-                <button class="option-button active" data-group="resolution" data-value="1024">1024px</button>
-                <button class="option-button" data-group="resolution" data-value="768">768px</button>
-                <button class="option-button" data-group="resolution" data-value="512">512px</button>
-                <button class="option-button" data-group="resolution" data-value="256">256px</button>
-                <button class="option-button" data-group="resolution" data-value="128">128px</button>
-                <button class="option-button" data-group="resolution" data-value="64">64px</button>
-                <button class="option-button" data-group="resolution" data-value="32">32px</button>
+            <label>Resolution:</label>
+            <div class="options resolution-options">
+                <!-- Dynamic resolution buttons -->
+            </div>
+        </div>
+
+        <div class="advanced-toggle">
+            <button id="advanced-button">Advanced ▼</button>
+        </div>
+
+        <div id="advanced-controls" style="display: none">
+            <div class="control-group">
+                <label>Downscale:</label>
+                <div class="options">
+                    <button class="option-button active" data-group="downscale" data-value="antialias">Antialias
+                    </button>
+                    <button class="option-button" data-group="downscale" data-value="bilinear">Bilinear</button>
+                    <button class="option-button" data-group="downscale" data-value="nearest">Nearest</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Upscale:</label>
+                <div class="options">
+                    <button class="option-button" data-group="upscale" data-value="antialias">Antialias</button>
+                    <button class="option-button active" data-group="upscale" data-value="bilinear">Bilinear</button>
+                    <button class="option-button" data-group="upscale" data-value="nearest">Nearest</button>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="image-display">
-        <img id="output-image" src="resolution/images/FundusImage_1_processed/FundusImage_1_1024_antialias_antialias.png"
-             alt="Medical Image">
-        <p id="image-caption">Fundus Image 1 | 1024px | Bilinear Downscale | Bilinear Upscale</p>
+        <img id="output-image" alt="Medical Image">
+        <p id="image-caption"></p>
+        <p id="image-description" class="description"></p>
     </section>
 
+
     <section class="info">
-        <p>Higher resolutions capture more information, making it easier to analyze fine structures. Lower resolutions can highlight patterns while reducing storage needs. Scaling methods also impact how well details are preserved.</p>
-        <p>For example, a 1024x1024 JPEG image compressed with 85% quality might appear worse than an uncompressed 768x768 image due to compression artifacts. Experiment to observe how resolution and scaling methods affect image quality.</p>
+        <p>Higher resolutions capture more information, making it easier to analyze fine structures. Lower resolutions
+            can highlight patterns while reducing storage needs. Scaling methods also impact how well details are
+            preserved.</p>
+        <p>For example, a 1024x1024 JPEG image compressed with 85% quality might appear worse than an uncompressed
+            768x768 image due to compression artifacts. Experiment to observe how resolution and scaling methods affect
+            image quality.</p>
     </section>
 </main>
 
 <footer>
-    <p>Example images taken from the iChallenge GAMMA dataset and Choroidalyzer. By Justin Engelmann</p>
+    <p>By Justin Engelmann</p>
 </footer>
 
 <script src="resolution/script.js"></script>

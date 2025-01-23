@@ -38,20 +38,24 @@ header p {
 }
 
 .control-group {
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
 }
 
 .control-group label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
+    min-width: 100px;
+    font-weight: 500;
+    text-align: right;
+    margin: 0;
 }
 
 .options {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    justify-content: center;
+    flex: 1;
 }
 
 .option-button {
@@ -74,6 +78,34 @@ header p {
     color: white;
 }
 
+/* Advanced section */
+.advanced-toggle {
+    text-align: right;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 12px;
+}
+
+.advanced-toggle button {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.advanced-toggle button:hover {
+    color: #333;
+    text-decoration: underline;
+}
+
+.advanced-section {
+    margin-top: 0;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
 /* Image display section */
 .image-display {
     margin: 20px auto;
@@ -94,6 +126,12 @@ header p {
     margin: 10px 0 0;
     font-size: 1rem;
     color: #555;
+}
+
+.description {
+    color: #666;
+    font-style: italic;
+    margin-top: 8px;
 }
 
 /* Info section */
