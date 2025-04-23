@@ -515,7 +515,7 @@
       bias: 0.07870177924633026
      }
     ];
-
+	console.log("AFTER ASSIGNMENT: predictionHeads =", predictionHeads);
     // Event listeners for drag & drop
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -822,6 +822,7 @@
     }
 
     function updatePredictions() {
+	  console.log('Updating predictions, heads:', predictionHeads?.length, 'feature vector:', featureVector?.length);
       if (!featureVector || !predictionHeads || predictionHeads.length === 0) return;
       
       log('Updating predictions');
