@@ -127,23 +127,6 @@
       margin-bottom: 20px;
     }
 
-    .image-container {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 10px;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      flex: 1;
-      max-width: 512px;
-    }
-
-    .retinal-image {
-      width: 100%;
-      height: auto;
-      border-radius: 5px;
-      display: block;
-    }
-
     /* NEW: Predictions Container Styling */
     .predictions-panel {
       flex: 1;
@@ -168,23 +151,36 @@
     }
 
     .prediction-label {
-      display: flex;
-      justify-content: space-between;
       margin-bottom: 10px;
       font-weight: 500;
     }
 
-    .prediction-value {
+    .p-value {
       font-weight: bold;
+      border-radius: 4px;
+      padding: 2px 5px;
     }
 
+    /* Bar with triangle marker */
     .prediction-bar {
       height: 24px;
       width: 100%;
-      background-color: #eee;
+      position: relative;
+      margin-bottom: 10px;
       border-radius: 12px;
       overflow: hidden;
-      position: relative;
+      background: linear-gradient(to right, #4caf50, #8bc34a, #ffeb3b, #ff9800, #f44336);
+    }
+
+    .marker-triangle {
+      position: absolute;
+      top: -10px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #333;
+      transform: translateX(-50%);
     }
 
     .prediction-scale {
@@ -193,14 +189,22 @@
       margin-top: 5px;
       font-size: 0.8em;
       color: #777;
+      position: relative;
+      width: 100%;
     }
 
-    /* NEW: Green to Red Gradient for Prediction Bar */
-    .prediction-fill {
-      height: 100%;
-      border-radius: 12px;
-      transition: width 0.5s ease;
-      background: linear-gradient(to right, #4caf50, #8bc34a, #ffeb3b, #ff9800, #f44336);
+    .scale-mark {
+      position: absolute;
+      top: -5px;
+      width: 1px;
+      height: 5px;
+      background-color: #777;
+    }
+
+    .scale-text {
+      position: absolute;
+      top: 0;
+      transform: translateX(-50%);
     }
 
     /* Feature vector section */
@@ -382,16 +386,11 @@
         <input type="file" id="file-input" accept="image/*">
       </div>
 
-      <!-- NEW: Image and Predictions Container (initially hidden) -->
+      <!-- NEW: Predictions Container (initially hidden) -->
       <div class="image-predictions-container" id="image-predictions-container" style="display: none;">
-        <!-- Image Container -->
-        <div class="image-container">
-          <img id="retinal-image" class="retinal-image" src="" alt="Retinal Image">
-        </div>
-        
         <!-- Predictions Panel -->
         <div class="predictions-panel" id="predictions-panel">
-          <h3 class="predictions-header">Clinical Variable Predictions</h3>
+          <h3 class="predictions-header">Linear predictions from vector</h3>
           <div id="predictions-content">
             <!-- Predictions will be inserted here by JavaScript -->
           </div>
@@ -570,36 +569,43 @@
         const labelDiv = document.createElement('div');
         labelDiv.className = 'prediction-label';
         
-        const nameSpan = document.createElement('span');
-        nameSpan.textContent = `${head.displayName}`;
+        // Format the prediction text with colored p value
+        const probText = probability.toFixed(3);
+        labelDiv.innerHTML = `${head.displayName} (<span class="p-value" style="background-color: ${getProbabilityColor(probability)}">p=${probText}</span>)`;
         
-        const valueSpan = document.createElement('span');
-        valueSpan.className = 'prediction-value';
-        valueSpan.textContent = `p=${probability.toFixed(3)}`;
-        
+        // Create the gradient bar with marker
         const barDiv = document.createElement('div');
         barDiv.className = 'prediction-bar';
         
-        const fillDiv = document.createElement('div');
-        fillDiv.className = 'prediction-fill';
-        fillDiv.style.width = `${probability * 100}%`;
+        // Add triangle marker at the position
+        const marker = document.createElement('div');
+        marker.className = 'marker-triangle';
+        marker.style.left = `${probability * 100}%`;
+        barDiv.appendChild(marker);
         
+        // Create scale with markings
         const scaleDiv = document.createElement('div');
         scaleDiv.className = 'prediction-scale';
         
-        const minLabel = document.createElement('span');
-        minLabel.textContent = '0';
-        
-        const maxLabel = document.createElement('span');
-        maxLabel.textContent = '1';
+        // Add scale markings
+        const positions = [0, 0.25, 0.5, 0.75, 1];
+        positions.forEach(pos => {
+          // Add tick mark
+          const tick = document.createElement('div');
+          tick.className = 'scale-mark';
+          tick.style.left = `${pos * 100}%`;
+          
+          // Add text label
+          const label = document.createElement('div');
+          label.className = 'scale-text';
+          label.textContent = pos;
+          label.style.left = `${pos * 100}%`;
+          
+          scaleDiv.appendChild(tick);
+          scaleDiv.appendChild(label);
+        });
         
         // Assemble the elements
-        labelDiv.appendChild(nameSpan);
-        labelDiv.appendChild(valueSpan);
-        barDiv.appendChild(fillDiv);
-        scaleDiv.appendChild(minLabel);
-        scaleDiv.appendChild(maxLabel);
-        
         predDiv.appendChild(labelDiv);
         predDiv.appendChild(barDiv);
         predDiv.appendChild(scaleDiv);
@@ -609,6 +615,20 @@
       
       // Show the predictions container
       imagePredsContainer.style.display = 'flex';
+    }
+    
+    // Helper function to get color based on probability
+    function getProbabilityColor(probability) {
+      // High values (near 1) should be red, low values (near 0) should be green
+      if (probability < 0.25) {
+        return 'rgba(76, 175, 80, 0.8)'; // Green
+      } else if (probability < 0.5) {
+        return 'rgba(255, 235, 59, 0.8)'; // Yellow
+      } else if (probability < 0.75) {
+        return 'rgba(255, 152, 0, 0.8)'; // Orange
+      } else {
+        return 'rgba(244, 67, 54, 0.8)'; // Red
+      }
     }
 
     function sigmoid(x) {
@@ -754,13 +774,13 @@
       // Start timing total process
       totalProcessStartTime = performance.now();
       
-      // Show the image in the drop zone background
+      // Show the image in the drop zone and save the URL
       const reader = new FileReader();
       reader.onload = function(event) {
         dropZone.style.backgroundImage = `url('${event.target.result}')`;
         dropZone.innerHTML = ""; // remove the instructional text
         
-        // Save this URL for displaying in the predictions view
+        // No need to save for another view - just using dropzone
         processedImageDataUrl = event.target.result;
       };
       reader.readAsDataURL(file);
@@ -827,10 +847,7 @@
           // Update the UI with the feature vector
           displayFeatureVector();
           
-          // Set the image in the side-by-side view
-          retinalImage.src = processedImageDataUrl;
-          
-          // Update predictions with the new UI
+          // Update predictions with the new UI (no need to set image again)
           updatePredictions();
           
         } catch (err) {
