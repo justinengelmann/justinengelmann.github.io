@@ -1,0 +1,51 @@
+{
+  "originalSize": 87445589,
+  "filename": "retfoundgreen.onnx",
+  "chunks": 11,
+  "parts": [
+    {
+      "file": "retfoundgreen.part01",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part02",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part03",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part04",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part05",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part06",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part07",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part08",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part09",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part10",
+      "size": 8388608
+    },
+    {
+      "file": "retfoundgreen.part11",
+      "size": 3559509
+    }
+  ]
+}
