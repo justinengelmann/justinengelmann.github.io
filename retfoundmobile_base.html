@@ -166,21 +166,22 @@
       height: 24px;
       width: 100%;
       position: relative;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       border-radius: 12px;
-      overflow: hidden;
+      overflow: visible; /* Changed from hidden to allow triangle to show */
       background: linear-gradient(to right, #4caf50, #8bc34a, #ffeb3b, #ff9800, #f44336);
     }
 
     .marker-triangle {
       position: absolute;
-      top: -10px;
+      top: -12px; /* Positioned above the bar */
       width: 0;
       height: 0;
       border-left: 10px solid transparent;
       border-right: 10px solid transparent;
-      border-top: 10px solid #333;
+      border-top: 12px solid #000; /* Made darker and larger */
       transform: translateX(-50%);
+      z-index: 10; /* Ensure it appears on top */
     }
 
     .prediction-scale {
@@ -545,6 +546,32 @@
       });
     });
 
+    // Create the scale with markings
+    function createScaleWithMarks(probability) {
+      const scaleDiv = document.createElement('div');
+      scaleDiv.className = 'prediction-scale';
+      
+      // Add scale markings
+      const positions = [0, 0.25, 0.5, 0.75, 1];
+      positions.forEach(pos => {
+        // Add tick mark
+        const tick = document.createElement('div');
+        tick.className = 'scale-mark';
+        tick.style.left = `${pos * 100}%`;
+        
+        // Add text label
+        const label = document.createElement('div');
+        label.className = 'scale-text';
+        label.textContent = pos;
+        label.style.left = `${pos * 100}%`;
+        
+        scaleDiv.appendChild(tick);
+        scaleDiv.appendChild(label);
+      });
+      
+      return scaleDiv;
+    }
+
     // NEW: Display prediction UI
     function updatePredictions() {
       if (!featureVector || !predictionHeads || predictionHeads.length === 0) return;
@@ -584,26 +611,7 @@
         barDiv.appendChild(marker);
         
         // Create scale with markings
-        const scaleDiv = document.createElement('div');
-        scaleDiv.className = 'prediction-scale';
-        
-        // Add scale markings
-        const positions = [0, 0.25, 0.5, 0.75, 1];
-        positions.forEach(pos => {
-          // Add tick mark
-          const tick = document.createElement('div');
-          tick.className = 'scale-mark';
-          tick.style.left = `${pos * 100}%`;
-          
-          // Add text label
-          const label = document.createElement('div');
-          label.className = 'scale-text';
-          label.textContent = pos;
-          label.style.left = `${pos * 100}%`;
-          
-          scaleDiv.appendChild(tick);
-          scaleDiv.appendChild(label);
-        });
+        const scaleDiv = createScaleWithMarks(probability);
         
         // Assemble the elements
         predDiv.appendChild(labelDiv);
