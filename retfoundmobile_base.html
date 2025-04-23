@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RETFoundMobile</title>
+  <style>
+    /* CSS remains the same */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #e2e2e2;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    .wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #logo {
+      width: 320px;
+      height: auto;
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    #main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+
+    #status-banner {
+      width: 512px;
+      max-width: 90vw;
+      padding: 10px;
+      text-align: center;
+      font-weight: 500;
+      border-radius: 5px;
+      background-color: #eef6ef;
+      color: #2d5f3a;
+      margin: 0 auto 10px auto;
+    }
+
+    #research-disclaimer {
+      color: #666;
+      font-size: 0.85em;
+      margin-bottom: 5px;
+      font-style: italic;
+    }
+
+    .upload-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    #drop-zone {
+      width: 512px;
+      height: 384px;
+      max-width: 90vw;
+      max-height: 80vh;
+      border: 3px dashed #999;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #555;
+      transition: border-color 0.3s, background-color 0.3s;
+      margin-bottom: 15px;
+    }
+    #drop-zone.hover {
+      border-color: #444;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    #drop-zone span {
+      pointer-events: none;
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 8px 15px;
+      border-radius: 4px;
+    }
+    #file-input {
+      display: none;
+    }
+
+    .feature-section {
+      width: 100%;
+      max-width: 90vw;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+
+    .feature-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .feature-header h3 {
+      margin: 0;
+    }
+
+    #copy-vector-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #copy-vector-btn:hover {
+      background-color: #45a049;
+    }
+
+    .vector-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .vector-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .vector-table th, .vector-table td {
+      padding: 2px 4px;
+      border-right: 1px solid #ddd;
+      font-size: 0.8em;
+      min-width: 60px;
+    }
+
+    .tooltip-container {
+      position: relative;
+      display: inline-block;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+    
+    .info-icon {
+      color: #4CAF50;
+      font-size: 1em;
+      font-weight: bold;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #e0ffe0;
+      border: 1px solid #4CAF50;
+    }
+    
+    .tooltip-text {
+      visibility: hidden;
+      width: 300px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-weight: normal;
+      font-size: 0.85em;
+      line-height: 1.4;
+    }
+    
+    .tooltip-text::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #333 transparent transparent transparent;
+    }
+    
+    .tooltip-container:hover .tooltip-text,
+    .tooltip-container:focus .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .predictions-section {
+      width: 100%;
+      max-width: 90vw;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+
+    .predictions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .predictions-header h3 {
+      margin: 0;
+    }
+
+    #prediction-toggle {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #333;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #4CAF50;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+
+    #predictions-container {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .prediction-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .prediction-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .prediction-name {
+      font-weight: normal;
+      margin: 0;
+    }
+
+    .prediction-value {
+      font-weight: bold;
+    }
+
+    .prediction-bar-outer {
+      height: 20px;
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .prediction-bar-inner {
+      height: 100%;
+      background: linear-gradient(to right, #4CAF50, #8BC34A);
+      border-radius: 10px;
+      transition: width 0.5s;
+    }
+
+    .info-notice {
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 0.9em;
+      color: #555;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      border: 1px solid #eee;
+    }
+
+    .info-notice h3 {
+      margin-top: 0;
+      color: #444;
+    }
+    
+    .footer-credit {
+      text-align: center;
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* Loading spinner for model preparation */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: #4CAF50;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Centered Logo -->
+    <img id="logo" src="logo.png" alt="RETFound-Green Logo">
+
+    <!-- Main content -->
+    <div id="main-content">
+      <!-- Status banner -->
+      <div id="status-banner">⚙️ Preparing model... ⚙️</div>
+
+      <!-- Loading spinner (initially visible) -->
+      <div class="loading-container" id="loading-container">
+        <div class="spinner"></div>
+        <div>Optimizing for your device...</div>
+      </div>
+
+      <!-- Upload section (initially hidden) -->
+      <div class="upload-section" id="upload-section" style="display: none;">
+        <div id="research-disclaimer">Research Use Only</div>
+        <div id="drop-zone">
+          <span>Drop retinal image here or click to select</span>
+        </div>
+        <input type="file" id="file-input" accept="image/*">
+      </div>
+
+      <!-- Feature vector section (initially hidden) -->
+      <div class="feature-section" id="feature-section" style="display: none;">
+        <div class="feature-header">
+          <h3>Feature Vector (384 dimensions)
+            <div class="tooltip-container" tabindex="0">
+              <div class="info-icon">i</div>
+              <div class="tooltip-text">A feature vector is an abstract numerical representation of the contents of the image. It can be used as input into predictive models.</div>
+            </div>
+          </h3>
+          <button id="copy-vector-btn">Copy to Clipboard</button>
+        </div>
+        <div class="vector-container">
+          <table class="vector-table">
+            <thead>
+              <tr id="vector-headers"></tr>
+            </thead>
+            <tbody>
+              <tr id="vector-values"></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Predictions section (initially hidden) -->
+      <div class="predictions-section" id="predictions-section" style="display: none;">
+        <div class="predictions-header">
+          <h3>Clinical Variable Predictions</h3>
+          <div id="prediction-toggle">
+            <span>Enable predictions</span>
+            <label class="switch">
+              <input type="checkbox" id="predictions-switch">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        <div id="predictions-container"></div>
+      </div>
+
+      <!-- Information notice -->
+      <div class="info-notice">
+        <h3>About RETFoundMobile</h3>
+        <p>RETFoundMobile brings the power of retinal foundation models directly to your browser. This tool runs RETFoundGreen locally on your device's hardware, whether you're using a phone, tablet, or computer.</p>
+        <p>Since everything runs in your browser, no images are ever sent to a server. Your privacy is guaranteed because your data never leaves your device. You can verify this yourself by loading the page and then turning off your internet connection - the tool will continue to work!</p>
+      </div>
+      
+      <!-- Footer credit -->
+      <div class="footer-credit">
+        Hacked together/vibe-coded by Justin Engelmann
+      </div>
+    </div>
+  </div>
+
+  <!-- Include ONNX Runtime Web via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+
+  <script>
+    // Global variables
+    let featureVector = null;
+    let predictionHeads = null;
+    let modelSession = null;
+    let modelReady = false;
+    let totalProcessStartTime = 0;
+    let inferenceStartTime = 0;
+    let preprocessingTime = 0;
+    let modelWarmupDone = false;
+    
+    // Logging functions
+    function log(message) {
+      console.log(`[RETFoundMobile] ${message}`);
+    }
+    
+    function logError(message) {
+      console.error(`[RETFoundMobile] ERROR: ${message}`);
+    }
+
+    function logPerformance(label, timeMs) {
+      console.log(`[RETFoundMobile] ⏱️ ${label}: ${timeMs.toFixed(2)}ms`);
+    }
+    
+    // DOM elements
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const statusBanner = document.getElementById('status-banner');
+    const featureSection = document.getElementById('feature-section');
+    const vectorHeaders = document.getElementById('vector-headers');
+    const vectorValues = document.getElementById('vector-values');
+    const copyVectorBtn = document.getElementById('copy-vector-btn');
+    const predictionsSection = document.getElementById('predictions-section');
+    const predictionsSwitch = document.getElementById('predictions-switch');
+    const predictionsContainer = document.getElementById('predictions-container');
+    const loadingContainer = document.getElementById('loading-container');
+    const uploadSection = document.getElementById('upload-section');
+
+    // Initialize the feature vector headers
+    function initializeVectorHeaders() {
+      vectorHeaders.innerHTML = '';
+      vectorValues.innerHTML = '';
+      
+      for (let i = 1; i <= 384; i++) {
+        const th = document.createElement('th');
+        th.textContent = `Dim${i}`;
+        vectorHeaders.appendChild(th);
+      }
+    }
+    
+    // Initialize prediction heads (will be replaced by actual data during inlining)
+    predictionHeads = [
+      // Example prediction head that will be replaced during build:
+      // { 
+      //   displayName: "Diabetic Retinopathy", 
+      //   weights: [0.1, 0.2, ...], // 384 values
+      //   bias: -0.5 
+      // }
+    ];
+
+    // Event listeners for drag & drop
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('hover');
+    });
+    
+    dropZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('hover');
+    });
+    
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('hover');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+    
+    dropZone.addEventListener('click', () => {
+      fileInput.click();
+    });
+    
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    // Copy feature vector to clipboard
+    copyVectorBtn.addEventListener('click', () => {
+      if (!featureVector) return;
+      
+      const vectorText = featureVector.join(', ');
+      navigator.clipboard.writeText(vectorText).then(() => {
+        const originalText = copyVectorBtn.textContent;
+        copyVectorBtn.textContent = 'Copied!';
+        log('Feature vector copied to clipboard');
+        setTimeout(() => {
+          copyVectorBtn.textContent = originalText;
+        }, 2000);
+      }).catch(err => {
+        logError('Failed to copy vector: ' + err);
+      });
+    });
+
+    // Toggle predictions visibility
+    predictionsSwitch.addEventListener('change', () => {
+      predictionsContainer.style.display = predictionsSwitch.checked ? 'flex' : 'none';
+      if (predictionsSwitch.checked && featureVector) {
+        updatePredictions();
+      }
+    });
+
+    // Initialize and load the ONNX model with optimized settings
+    async function initializeModel() {
+      try {
+        statusBanner.textContent = "⚙️ Preparing model... ⚙️";
+        statusBanner.style.backgroundColor = "#fff3cd";
+        statusBanner.style.color = "#856404";
+        
+        const startTime = performance.now();
+        
+        // Configure ONNX Runtime with optimized settings
+        // The number of threads can be adjusted based on device capabilities
+        const options = {
+          executionProviders: ['wasm'],
+          graphOptimizationLevel: 'all',
+          enableCpuMemArena: true,
+          enableMemPattern: true,
+          executionMode: 'sequential',
+          // For multi-core devices, increase the number of threads
+          numThreads: navigator.hardwareConcurrency > 4 ? 4 : 2
+        };
+        
+        // Load ONNX model (this URL is replaced by a data URI during build)
+        modelSession = await ort.InferenceSession.create('https://github.com/justinengelmann/RETFound_Green/releases/download/v0.1_onnxbeta/retfoundgreen.onnx', options);
+        
+        // Create a dummy tensor for warm-up run
+        const dummyTensor = new ort.Tensor('float32', new Float32Array(3 * 392 * 392).fill(0), [1, 3, 392, 392]);
+        const dummyFeeds = { input: dummyTensor };
+        
+        // Warm-up run
+        log("Performing model warm-up...");
+        await modelSession.run(dummyFeeds);
+        modelWarmupDone = true;
+        
+        const loadTime = performance.now() - startTime;
+        logPerformance("Model initialization time", loadTime);
+        
+        // Model is ready
+        modelReady = true;
+        statusBanner.textContent = "🤖 Ready for inference ⚡";
+        statusBanner.style.backgroundColor = "#eef6ef";
+        statusBanner.style.color = "#2d5f3a";
+        
+        // Hide loading spinner and show upload section
+        loadingContainer.style.display = "none";
+        uploadSection.style.display = "flex";
+        
+      } catch (err) {
+        logError(`Model initialization failed: ${err.message}`);
+        statusBanner.textContent = `❌ Error loading model: ${err.message}`;
+        statusBanner.style.backgroundColor = "#f8d7da";
+        statusBanner.style.color = "#721c24";
+        loadingContainer.style.display = "none";
+      }
+    }
+
+    async function handleFile(file) {
+      if (!modelReady) {
+        statusBanner.textContent = "⏳ Please wait for model initialization...";
+        return;
+      }
+      
+      // Reset UI and show loading state
+      statusBanner.textContent = "🔄 Processing image... ⚙️";
+      statusBanner.style.backgroundColor = "#fff3cd";
+      statusBanner.style.color = "#856404";
+      
+      // Start timing total process
+      totalProcessStartTime = performance.now();
+      
+      // Show the image in the drop zone background
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        dropZone.style.backgroundImage = `url('${event.target.result}')`;
+        dropZone.innerHTML = ""; // remove the instructional text
+      };
+      reader.readAsDataURL(file);
+
+      // Create an Image object to process
+      const image = new Image();
+      image.onload = async function() {
+        try {
+          const preprocessStart = performance.now();
+          
+          // Resize to 392x392 via an offscreen canvas
+          const canvas = document.createElement('canvas');
+          canvas.width = 392;
+          canvas.height = 392;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(image, 0, 0, 392, 392);
+
+          // Get pixel data, normalize to [0, 1] first then to [-1, 1]
+          const imageData = ctx.getImageData(0, 0, 392, 392);
+          const data = imageData.data;
+          const floatData = new Float32Array(3 * 392 * 392);
+          
+          // Optimize image preprocessing with a single loop
+          for (let i = 0, j = 0; i < data.length; i += 4, j++) {
+            floatData[j] = (data[i] / 255 - 0.5) / 0.5;                 // R
+            floatData[j + 392*392] = (data[i + 1] / 255 - 0.5) / 0.5;   // G
+            floatData[j + 2*392*392] = (data[i + 2] / 255 - 0.5) / 0.5; // B
+          }
+          
+          // Calculate preprocessing time
+          preprocessingTime = performance.now() - preprocessStart;
+          logPerformance("Image preprocessing time", preprocessingTime);
+          
+          // Start inference time measurement
+          inferenceStartTime = performance.now();
+          statusBanner.textContent = "🧠 Running neural network... ⚙️";
+          
+          // Use the cached model session
+          const tensor = new ort.Tensor('float32', floatData, [1, 3, 392, 392]);
+          const feeds = { input: tensor };
+          
+          // Run the model
+          const results = await modelSession.run(feeds);
+          
+          // Get the output (should be 1x384 tensor)
+          const outputData = results[Object.keys(results)[0]].data;
+          
+          // Calculate inference time
+          const inferenceTime = performance.now() - inferenceStartTime;
+          logPerformance("Model inference time", inferenceTime);
+          
+          // Calculate total time for logging
+          const totalTime = performance.now() - totalProcessStartTime;
+          logPerformance("Total processing time", totalTime);
+          
+          // Show only the inference time to the user
+          statusBanner.textContent = `✅ Processed in ${(inferenceTime/1000).toFixed(3)}s ⚡`;
+          statusBanner.style.backgroundColor = "#d4edda";
+          statusBanner.style.color = "#155724";
+          
+          // Round to 4 decimal places and store the feature vector
+          featureVector = Array.from(outputData).map(val => parseFloat(val.toFixed(4)));
+          
+          // Update the UI with the feature vector
+          displayFeatureVector();
+          
+          // Show predictions section if we have prediction heads
+          if (predictionHeads && predictionHeads.length > 0) {
+            predictionsSection.style.display = 'flex';
+            if (predictionsSwitch.checked) {
+              updatePredictions();
+            }
+          }
+          
+        } catch (err) {
+          logError('Error in ONNX inference: ' + err);
+          statusBanner.textContent = `❌ Error: ${err.message}`;
+          statusBanner.style.backgroundColor = "#f8d7da";
+          statusBanner.style.color = "#721c24";
+        }
+      };
+      image.src = URL.createObjectURL(file);
+    }
+
+    function displayFeatureVector() {
+      if (!featureVector) return;
+      
+      // Initialize headers if not done yet
+      if (vectorHeaders.children.length === 0) {
+        initializeVectorHeaders();
+      }
+      
+      // Fill in the values
+      vectorValues.innerHTML = '';
+      featureVector.forEach(val => {
+        const td = document.createElement('td');
+        td.textContent = val;
+        vectorValues.appendChild(td);
+      });
+      
+      // Show the feature section
+      featureSection.style.display = 'block';
+      log('Feature vector displayed');
+    }
+
+    function sigmoid(x) {
+      return 1 / (1 + Math.exp(-x));
+    }
+
+    function updatePredictions() {
+      if (!featureVector || !predictionHeads || predictionHeads.length === 0) return;
+      
+      log('Updating predictions');
+      predictionsContainer.innerHTML = '';
+      
+      predictionHeads.forEach(head => {
+        // Calculate prediction using dot product and sigmoid
+        let dotProduct = head.bias || 0;
+        for (let i = 0; i < featureVector.length; i++) {
+          if (i < head.weights.length) {
+            dotProduct += featureVector[i] * head.weights[i];
+          }
+        }
+        const probability = sigmoid(dotProduct);
+        
+        // Create prediction UI elements
+        const predDiv = document.createElement('div');
+        predDiv.className = 'prediction-item';
+        
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'prediction-header';
+        
+        const nameSpan = document.createElement('h4');
+        nameSpan.className = 'prediction-name';
+        nameSpan.textContent = head.displayName;
+        
+        const valueSpan = document.createElement('span');
+        valueSpan.className = 'prediction-value';
+        valueSpan.textContent = `p=${probability.toFixed(3)}`;
+        
+        const barOuter = document.createElement('div');
+        barOuter.className = 'prediction-bar-outer';
+        
+        const barInner = document.createElement('div');
+        barInner.className = 'prediction-bar-inner';
+        barInner.style.width = `${probability * 100}%`;
+        
+        // Assemble the elements
+        headerDiv.appendChild(nameSpan);
+        headerDiv.appendChild(valueSpan);
+        barOuter.appendChild(barInner);
+        predDiv.appendChild(headerDiv);
+        predDiv.appendChild(barOuter);
+        
+        predictionsContainer.appendChild(predDiv);
+      });
+      
+      predictionsContainer.style.display = 'flex';
+      log('Predictions updated');
+    }
+
+    // Add detection for WebAssembly support
+    function checkWasmSupport() {
+      try {
+        if (typeof WebAssembly === 'object' && 
+            typeof WebAssembly.instantiate === 'function') {
+          const module = new WebAssembly.Module(
+            new Uint8Array([0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00])
+          );
+          if (module instanceof WebAssembly.Module) {
+            const instance = new WebAssembly.Instance(module);
+            return instance instanceof WebAssembly.Instance;
+          }
+        }
+      } catch (e) {}
+      return false;
+    }
+
+    // Check for WebAssembly support on load
+    window.addEventListener('DOMContentLoaded', () => {
+      log('RETFoundMobile initializing...');
+      initializeVectorHeaders();
+      
+      if (!checkWasmSupport()) {
+        statusBanner.textContent = "❌ WebAssembly not supported in your browser!";
+        statusBanner.style.backgroundColor = "#f8d7da";
+        statusBanner.style.color = "#721c24";
+        loadingContainer.style.display = "none";
+        log('WebAssembly not supported');
+        return;
+      }
+      
+      // Start model initialization
+      initializeModel();
+    });
+
+    // Add service worker registration for model caching
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(registration => {
+            log('ServiceWorker registration successful with scope: ' + registration.scope);
+          })
+          .catch(err => {
+            logError('ServiceWorker registration failed: ' + err);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
