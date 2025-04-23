@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>RETFoundMobile</title>
   <style>
-    /* CSS remains the same */
+    /* Base styles */
     html, body {
       margin: 0;
       padding: 0;
@@ -52,6 +52,30 @@
       font-style: italic;
     }
 
+    /* Loading spinner */
+    .loading-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: #4CAF50;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Upload section */
     .upload-section {
       display: flex;
       flex-direction: column;
@@ -92,6 +116,94 @@
       display: none;
     }
 
+    /* NEW: Image and Predictions Container */
+    .image-predictions-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .image-container {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      flex: 1;
+      max-width: 512px;
+    }
+
+    .retinal-image {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      display: block;
+    }
+
+    /* NEW: Predictions Container Styling */
+    .predictions-panel {
+      flex: 1;
+      max-width: 400px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+
+    .predictions-header {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      color: #333;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 10px;
+    }
+
+    .prediction-row {
+      margin-bottom: 30px;
+    }
+
+    .prediction-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .prediction-value {
+      font-weight: bold;
+    }
+
+    .prediction-bar {
+      height: 24px;
+      width: 100%;
+      background-color: #eee;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .prediction-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 0.8em;
+      color: #777;
+    }
+
+    /* NEW: Green to Red Gradient for Prediction Bar */
+    .prediction-fill {
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.5s ease;
+      background: linear-gradient(to right, #4caf50, #8bc34a, #ffeb3b, #ff9800, #f44336);
+    }
+
+    /* Feature vector section */
     .feature-section {
       width: 100%;
       max-width: 90vw;
@@ -111,41 +223,6 @@
 
     .feature-header h3 {
       margin: 0;
-    }
-
-    #copy-vector-btn {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    #copy-vector-btn:hover {
-      background-color: #45a049;
-    }
-
-    .vector-container {
-      overflow-x: auto;
-      white-space: nowrap;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 5px;
-      background-color: #f9f9f9;
-    }
-
-    .vector-table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-
-    .vector-table th, .vector-table td {
-      padding: 2px 4px;
-      border-right: 1px solid #ddd;
-      font-size: 0.8em;
-      min-width: 60px;
     }
 
     .tooltip-container {
@@ -206,127 +283,42 @@
       opacity: 1;
     }
 
-    .predictions-section {
-      width: 100%;
-      max-width: 90vw;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-bottom: 15px;
-    }
-
-    .predictions-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .predictions-header h3 {
-      margin: 0;
-    }
-
-    #prediction-toggle {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      color: #333;
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 48px;
-      height: 24px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 24px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider {
+    #copy-vector-btn {
       background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
-    input:focus + .slider {
-      box-shadow: 0 0 1px #4CAF50;
+    #copy-vector-btn:hover {
+      background-color: #45a049;
     }
 
-    input:checked + .slider:before {
-      transform: translateX(24px);
+    .vector-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 5px;
+      background-color: #f9f9f9;
     }
 
-    #predictions-container {
-      display: none;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .prediction-item {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .prediction-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .prediction-name {
-      font-weight: normal;
-      margin: 0;
-    }
-
-    .prediction-value {
-      font-weight: bold;
-    }
-
-    .prediction-bar-outer {
-      height: 20px;
+    .vector-table {
+      border-collapse: collapse;
       width: 100%;
-      background-color: #e0e0e0;
-      border-radius: 10px;
-      overflow: hidden;
     }
 
-    .prediction-bar-inner {
-      height: 100%;
-      background: linear-gradient(to right, #4CAF50, #8BC34A);
-      border-radius: 10px;
-      transition: width 0.5s;
+    .vector-table th, .vector-table td {
+      padding: 2px 4px;
+      border-right: 1px solid #ddd;
+      font-size: 0.8em;
+      min-width: 60px;
     }
 
+    /* Info notice */
     .info-notice {
       padding: 15px;
       background-color: #f9f9f9;
@@ -352,27 +344,16 @@
       margin-bottom: 20px;
     }
 
-    /* Loading spinner for model preparation */
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border-left-color: #4CAF50;
-      animation: spin 1s linear infinite;
-      margin-bottom: 10px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    /* Responsive design */
+    @media (max-width: 900px) {
+      .image-predictions-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .image-container, .predictions-panel {
+        max-width: 90%;
+      }
     }
   </style>
 </head>
@@ -401,6 +382,22 @@
         <input type="file" id="file-input" accept="image/*">
       </div>
 
+      <!-- NEW: Image and Predictions Container (initially hidden) -->
+      <div class="image-predictions-container" id="image-predictions-container" style="display: none;">
+        <!-- Image Container -->
+        <div class="image-container">
+          <img id="retinal-image" class="retinal-image" src="" alt="Retinal Image">
+        </div>
+        
+        <!-- Predictions Panel -->
+        <div class="predictions-panel" id="predictions-panel">
+          <h3 class="predictions-header">Clinical Variable Predictions</h3>
+          <div id="predictions-content">
+            <!-- Predictions will be inserted here by JavaScript -->
+          </div>
+        </div>
+      </div>
+
       <!-- Feature vector section (initially hidden) -->
       <div class="feature-section" id="feature-section" style="display: none;">
         <div class="feature-header">
@@ -422,21 +419,6 @@
             </tbody>
           </table>
         </div>
-      </div>
-
-      <!-- Predictions section (initially hidden) -->
-      <div class="predictions-section" id="predictions-section" style="display: none;">
-        <div class="predictions-header">
-          <h3>Clinical Variable Predictions</h3>
-          <div id="prediction-toggle">
-            <span>Enable predictions</span>
-            <label class="switch">
-              <input type="checkbox" id="predictions-switch">
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-        <div id="predictions-container"></div>
       </div>
 
       <!-- Information notice -->
@@ -466,6 +448,7 @@
     let inferenceStartTime = 0;
     let preprocessingTime = 0;
     let modelWarmupDone = false;
+    let processedImageDataUrl = null; // To store the processed image for display
     
     // Logging functions
     function log(message) {
@@ -488,11 +471,11 @@
     const vectorHeaders = document.getElementById('vector-headers');
     const vectorValues = document.getElementById('vector-values');
     const copyVectorBtn = document.getElementById('copy-vector-btn');
-    const predictionsSection = document.getElementById('predictions-section');
-    const predictionsSwitch = document.getElementById('predictions-switch');
-    const predictionsContainer = document.getElementById('predictions-container');
     const loadingContainer = document.getElementById('loading-container');
     const uploadSection = document.getElementById('upload-section');
+    const imagePredsContainer = document.getElementById('image-predictions-container');
+    const retinalImage = document.getElementById('retinal-image');
+    const predictionsContent = document.getElementById('predictions-content');
 
     // Initialize the feature vector headers
     function initializeVectorHeaders() {
@@ -563,13 +546,75 @@
       });
     });
 
-    // Toggle predictions visibility
-    predictionsSwitch.addEventListener('change', () => {
-      predictionsContainer.style.display = predictionsSwitch.checked ? 'flex' : 'none';
-      if (predictionsSwitch.checked && featureVector) {
-        updatePredictions();
-      }
-    });
+    // NEW: Display prediction UI
+    function updatePredictions() {
+      if (!featureVector || !predictionHeads || predictionHeads.length === 0) return;
+      
+      log('Updating predictions with side-by-side layout');
+      predictionsContent.innerHTML = '';
+      
+      predictionHeads.forEach(head => {
+        // Calculate prediction using dot product and sigmoid
+        let dotProduct = head.bias || 0;
+        for (let i = 0; i < featureVector.length; i++) {
+          if (i < head.weights.length) {
+            dotProduct += featureVector[i] * head.weights[i];
+          }
+        }
+        const probability = sigmoid(dotProduct);
+        
+        // Create prediction UI elements
+        const predDiv = document.createElement('div');
+        predDiv.className = 'prediction-row';
+        
+        const labelDiv = document.createElement('div');
+        labelDiv.className = 'prediction-label';
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = `${head.displayName}`;
+        
+        const valueSpan = document.createElement('span');
+        valueSpan.className = 'prediction-value';
+        valueSpan.textContent = `p=${probability.toFixed(3)}`;
+        
+        const barDiv = document.createElement('div');
+        barDiv.className = 'prediction-bar';
+        
+        const fillDiv = document.createElement('div');
+        fillDiv.className = 'prediction-fill';
+        fillDiv.style.width = `${probability * 100}%`;
+        
+        const scaleDiv = document.createElement('div');
+        scaleDiv.className = 'prediction-scale';
+        
+        const minLabel = document.createElement('span');
+        minLabel.textContent = '0';
+        
+        const maxLabel = document.createElement('span');
+        maxLabel.textContent = '1';
+        
+        // Assemble the elements
+        labelDiv.appendChild(nameSpan);
+        labelDiv.appendChild(valueSpan);
+        barDiv.appendChild(fillDiv);
+        scaleDiv.appendChild(minLabel);
+        scaleDiv.appendChild(maxLabel);
+        
+        predDiv.appendChild(labelDiv);
+        predDiv.appendChild(barDiv);
+        predDiv.appendChild(scaleDiv);
+        
+        predictionsContent.appendChild(predDiv);
+      });
+      
+      // Show the predictions container
+      imagePredsContainer.style.display = 'flex';
+    }
+
+    function sigmoid(x) {
+      return 1 / (1 + Math.exp(-x));
+    }
+
 	async function initializeModel() {
 	  try {
 		statusBanner.textContent = "⚙️ Downloading model parts... ⚙️";
@@ -714,6 +759,9 @@
       reader.onload = function(event) {
         dropZone.style.backgroundImage = `url('${event.target.result}')`;
         dropZone.innerHTML = ""; // remove the instructional text
+        
+        // Save this URL for displaying in the predictions view
+        processedImageDataUrl = event.target.result;
       };
       reader.readAsDataURL(file);
 
@@ -779,21 +827,11 @@
           // Update the UI with the feature vector
           displayFeatureVector();
           
-		if (predictionHeads && predictionHeads.length > 0) {
-		  // Make the section visible
-		  predictionsSection.style.display = 'flex';
-		  
-		  // Force the toggle switch to ON position
-		  predictionsSwitch.checked = true;
-		  
-		  // Make the predictions container visible regardless of toggle state
-		  predictionsContainer.style.display = 'flex';
-		  
-		  // Always update the predictions
-		  updatePredictions();
-		  
-		  console.log("Predictions enabled automatically");
-		}
+          // Set the image in the side-by-side view
+          retinalImage.src = processedImageDataUrl;
+          
+          // Update predictions with the new UI
+          updatePredictions();
           
         } catch (err) {
           logError('Error in ONNX inference: ' + err);
@@ -826,64 +864,7 @@
       log('Feature vector displayed');
     }
 
-    function sigmoid(x) {
-      return 1 / (1 + Math.exp(-x));
-    }
-
-    function updatePredictions() {
-	  console.log('Updating predictions, heads:', predictionHeads?.length, 'feature vector:', featureVector?.length);
-      if (!featureVector || !predictionHeads || predictionHeads.length === 0) return;
-      
-      log('Updating predictions');
-      predictionsContainer.innerHTML = '';
-      
-      predictionHeads.forEach(head => {
-        // Calculate prediction using dot product and sigmoid
-        let dotProduct = head.bias || 0;
-        for (let i = 0; i < featureVector.length; i++) {
-          if (i < head.weights.length) {
-            dotProduct += featureVector[i] * head.weights[i];
-          }
-        }
-        const probability = sigmoid(dotProduct);
-        
-        // Create prediction UI elements
-        const predDiv = document.createElement('div');
-        predDiv.className = 'prediction-item';
-        
-        const headerDiv = document.createElement('div');
-        headerDiv.className = 'prediction-header';
-        
-        const nameSpan = document.createElement('h4');
-        nameSpan.className = 'prediction-name';
-        nameSpan.textContent = head.displayName;
-        
-        const valueSpan = document.createElement('span');
-        valueSpan.className = 'prediction-value';
-        valueSpan.textContent = `p=${probability.toFixed(3)}`;
-        
-        const barOuter = document.createElement('div');
-        barOuter.className = 'prediction-bar-outer';
-        
-        const barInner = document.createElement('div');
-        barInner.className = 'prediction-bar-inner';
-        barInner.style.width = `${probability * 100}%`;
-        
-        // Assemble the elements
-        headerDiv.appendChild(nameSpan);
-        headerDiv.appendChild(valueSpan);
-        barOuter.appendChild(barInner);
-        predDiv.appendChild(headerDiv);
-        predDiv.appendChild(barOuter);
-        
-        predictionsContainer.appendChild(predDiv);
-      });
-      
-      predictionsContainer.style.display = 'flex';
-      log('Predictions updated');
-    }
-
-    // Add detection for WebAssembly support
+    // Check for WebAssembly support
     function checkWasmSupport() {
       try {
         if (typeof WebAssembly === 'object' && 
@@ -900,7 +881,7 @@
       return false;
     }
 
-    // Check for WebAssembly support on load
+    // Initialize on load
     window.addEventListener('DOMContentLoaded', () => {
       log('RETFoundMobile initializing...');
       initializeVectorHeaders();
