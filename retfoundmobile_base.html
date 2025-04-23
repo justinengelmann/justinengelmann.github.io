@@ -516,6 +516,7 @@
      }
     ];
 	console.log("AFTER ASSIGNMENT: predictionHeads =", predictionHeads);
+	
     // Event listeners for drag & drop
     dropZone.addEventListener('dragover', (e) => {
       e.preventDefault();
@@ -778,13 +779,21 @@
           // Update the UI with the feature vector
           displayFeatureVector();
           
-          // Show predictions section if we have prediction heads
-          if (predictionHeads && predictionHeads.length > 0) {
-            predictionsSection.style.display = 'flex';
-            if (predictionsSwitch.checked) {
-              updatePredictions();
-            }
-          }
+		if (predictionHeads && predictionHeads.length > 0) {
+		  // Make the section visible
+		  predictionsSection.style.display = 'flex';
+		  
+		  // Force the toggle switch to ON position
+		  predictionsSwitch.checked = true;
+		  
+		  // Make the predictions container visible regardless of toggle state
+		  predictionsContainer.style.display = 'flex';
+		  
+		  // Always update the predictions
+		  updatePredictions();
+		  
+		  console.log("Predictions enabled automatically");
+		}
           
         } catch (err) {
           logError('Error in ONNX inference: ' + err);
