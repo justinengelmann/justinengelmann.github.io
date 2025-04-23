@@ -454,7 +454,7 @@
   </div>
 
   <!-- Include ONNX Runtime Web via CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.21.0/dist/ort.min.js"></script>
 
   <script>
     // Global variables
@@ -570,60 +570,138 @@
       }
     });
 
-    // Initialize and load the ONNX model with optimized settings
-    async function initializeModel() {
-      try {
-        statusBanner.textContent = "⚙️ Preparing model... ⚙️";
-        statusBanner.style.backgroundColor = "#fff3cd";
-        statusBanner.style.color = "#856404";
+async function initializeModel() {
+  try {
+    statusBanner.textContent = "⚙️ Downloading model... ⚙️";
+    statusBanner.style.backgroundColor = "#fff3cd";
+    statusBanner.style.color = "#856404";
+    
+    const startTime = performance.now();
+    
+    // Worker code as a string
+    const workerCode = `
+      // Web Worker for downloading the model
+      self.addEventListener('message', async function(e) {
+        const modelUrl = e.data.modelUrl;
         
-        const startTime = performance.now();
+        try {
+          self.postMessage({ status: 'downloading', message: 'Starting model download...' });
+          
+          // Use no-cors mode to bypass CORS restrictions
+          const response = await fetch(modelUrl, { mode: 'no-cors' });
+          
+          // Convert response to ArrayBuffer
+          const arrayBuffer = await response.arrayBuffer();
+          
+          // Send the ArrayBuffer back to the main thread
+          self.postMessage({ 
+            status: 'complete', 
+            arrayBuffer: arrayBuffer,
+            message: 'Model downloaded successfully'
+          }, [arrayBuffer]); // Transfer ownership for better performance
+        } catch (error) {
+          self.postMessage({ 
+            status: 'error', 
+            message: 'Error downloading model: ' + error.message 
+          });
+        }
+      });
+    `;
+    
+    // Create a blob URL for the worker
+    const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
+    const workerUrl = URL.createObjectURL(workerBlob);
+    
+    // Create the worker using the blob URL
+    const worker = new Worker(workerUrl);
+    
+    // The GitHub release URL for your model
+    const modelUrl = 'https://github.com/justinengelmann/RETFound_Green/releases/download/v0.1_onnxbeta/retfoundgreen.onnx';
+    
+    // Create a promise to handle the worker's response
+    const modelArrayBuffer = await new Promise((resolve, reject) => {
+      worker.onmessage = function(e) {
+        const data = e.data;
         
-        // Configure ONNX Runtime with optimized settings
-        // The number of threads can be adjusted based on device capabilities
-        const options = {
-          executionProviders: ['wasm'],
-          graphOptimizationLevel: 'all',
-          enableCpuMemArena: true,
-          enableMemPattern: true,
-          executionMode: 'sequential',
-          // For multi-core devices, increase the number of threads
-          numThreads: navigator.hardwareConcurrency > 4 ? 4 : 2
-        };
-        
-        // Load ONNX model (this URL is replaced by a data URI during build)
-        modelSession = await ort.InferenceSession.create('https://github.com/justinengelmann/RETFound_Green/releases/download/v0.1_onnxbeta/retfoundgreen.onnx', options);
-        
-        // Create a dummy tensor for warm-up run
-        const dummyTensor = new ort.Tensor('float32', new Float32Array(3 * 392 * 392).fill(0), [1, 3, 392, 392]);
-        const dummyFeeds = { input: dummyTensor };
-        
-        // Warm-up run
-        log("Performing model warm-up...");
-        await modelSession.run(dummyFeeds);
-        modelWarmupDone = true;
-        
-        const loadTime = performance.now() - startTime;
-        logPerformance("Model initialization time", loadTime);
-        
-        // Model is ready
-        modelReady = true;
-        statusBanner.textContent = "🤖 Ready for inference ⚡";
-        statusBanner.style.backgroundColor = "#eef6ef";
-        statusBanner.style.color = "#2d5f3a";
-        
-        // Hide loading spinner and show upload section
-        loadingContainer.style.display = "none";
-        uploadSection.style.display = "flex";
-        
-      } catch (err) {
-        logError(`Model initialization failed: ${err.message}`);
-        statusBanner.textContent = `❌ Error loading model: ${err.message}`;
-        statusBanner.style.backgroundColor = "#f8d7da";
-        statusBanner.style.color = "#721c24";
-        loadingContainer.style.display = "none";
-      }
-    }
+        if (data.status === 'downloading') {
+          log(data.message);
+        } 
+        else if (data.status === 'complete') {
+          log(data.message);
+          resolve(data.arrayBuffer);
+        } 
+        else if (data.status === 'error') {
+          reject(new Error(data.message));
+        }
+      };
+      
+      worker.onerror = function(error) {
+        reject(new Error('Worker error: ' + error.message));
+      };
+      
+      // Start the download
+      worker.postMessage({ modelUrl: modelUrl });
+    });
+    
+    // Clean up the worker and its URL
+    worker.terminate();
+    URL.revokeObjectURL(workerUrl);
+    
+    // Create a Blob from the ArrayBuffer
+    const modelBlob = new Blob([modelArrayBuffer]);
+    
+    // Create an Object URL from the Blob
+    const modelObjectUrl = URL.createObjectURL(modelBlob);
+    
+    log("Model downloaded and converted to Object URL");
+    statusBanner.textContent = "⚙️ Preparing model... ⚙️";
+    
+    // Configure ONNX Runtime with optimized settings
+    const options = {
+      executionProviders: ['wasm'],
+      graphOptimizationLevel: 'all',
+      enableCpuMemArena: true,
+      enableMemPattern: true,
+      executionMode: 'sequential',
+      numThreads: navigator.hardwareConcurrency > 4 ? 4 : 2
+    };
+    
+    // Load the ONNX model from the Object URL
+    modelSession = await ort.InferenceSession.create(modelObjectUrl, options);
+    
+    // Perform warm-up run with dummy data
+    const dummyTensor = new ort.Tensor('float32', new Float32Array(3 * 392 * 392).fill(0), [1, 3, 392, 392]);
+    const dummyFeeds = { input: dummyTensor };
+    
+    log("Performing model warm-up...");
+    await modelSession.run(dummyFeeds);
+    modelWarmupDone = true;
+    
+    // Clean up the Object URL to free memory
+    URL.revokeObjectURL(modelObjectUrl);
+    
+    const loadTime = performance.now() - startTime;
+    logPerformance("Model initialization time", loadTime);
+    
+    // Model is ready
+    modelReady = true;
+    statusBanner.textContent = "🤖 Ready for inference ⚡";
+    statusBanner.style.backgroundColor = "#eef6ef";
+    statusBanner.style.color = "#2d5f3a";
+    
+    // Hide loading spinner and show upload section
+    loadingContainer.style.display = "none";
+    uploadSection.style.display = "flex";
+    
+  } catch (err) {
+    logError(`Model initialization failed: ${err.message}`);
+    statusBanner.textContent = `❌ Error loading model: ${err.message}`;
+    statusBanner.style.backgroundColor = "#f8d7da";
+    statusBanner.style.color = "#721c24";
+    loadingContainer.style.display = "none";
+  }
+}
+
 
     async function handleFile(file) {
       if (!modelReady) {
