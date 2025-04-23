@@ -570,87 +570,128 @@
       }
     });
 	async function initializeModel() {
-  try {
-    statusBanner.textContent = "⚙️ Preparing model... ⚙️";
-    statusBanner.style.backgroundColor = "#fff3cd";
-    statusBanner.style.color = "#856404";
-    
-    const startTime = performance.now();
-    
-    // Configure ONNX Runtime with optimized settings
-    const options = {
-      executionProviders: ['wasm'],
-      graphOptimizationLevel: 'all',
-      enableCpuMemArena: true,
-      enableMemPattern: true,
-      executionMode: 'sequential',
-      numThreads: navigator.hardwareConcurrency > 4 ? 4 : 2
-    };
-    
-    // Option 1: Try using public URL with CORS-Anywhere proxy
-    try {
-      log("Trying to load model with CORS proxy...");
-      // Use a CORS proxy if available (for testing only)
-      const corsProxy = "https://corsproxy.io/?";
-      const modelUrl = "https://github.com/justinengelmann/RETFound_Green/releases/download/v0.1_onnxbeta/retfoundgreen.onnx";
-      const proxyUrl = corsProxy + encodeURIComponent(modelUrl);
-      
-      modelSession = await ort.InferenceSession.create(proxyUrl, options);
-      log("Model loaded successfully via CORS proxy!");
-    } 
-    catch (proxyError) {
-      log("CORS proxy approach failed, trying direct load...");
-      
-      // Option 2: Try loading directly from a relative path
-      try {
-        log("Trying to load model from local path...");
-        modelSession = await ort.InferenceSession.create('./model.onnx', options);
-        log("Model loaded successfully from local path!");
-      } 
-      catch (localError) {
-        // Option 3: Try raw.githubusercontent.com if the model is in the repo
-        try {
-          log("Trying to load from raw.githubusercontent.com...");
-          const rawUrl = "https://raw.githubusercontent.com/justinengelmann/RETFound_Green/main/model.onnx";
-          modelSession = await ort.InferenceSession.create(rawUrl, options);
-          log("Model loaded successfully from raw GitHub URL!");
-        }
-        catch (rawError) {
-          // If all else fails, show helpful error message
-          throw new Error("Could not load model through any available method. Please ensure the model file is accessible.");
-        }
-      }
-    }
-    
-    // Perform warm-up run with dummy data
-    const dummyTensor = new ort.Tensor('float32', new Float32Array(3 * 392 * 392).fill(0), [1, 3, 392, 392]);
-    const dummyFeeds = { input: dummyTensor };
-    
-    log("Performing model warm-up...");
-    await modelSession.run(dummyFeeds);
-    modelWarmupDone = true;
-    
-    const loadTime = performance.now() - startTime;
-    logPerformance("Model initialization time", loadTime);
-    
-    // Model is ready
-    modelReady = true;
-    statusBanner.textContent = "🤖 Ready for inference ⚡";
-    statusBanner.style.backgroundColor = "#eef6ef";
-    statusBanner.style.color = "#2d5f3a";
-    
-    // Hide loading spinner and show upload section
-    loadingContainer.style.display = "none";
-    uploadSection.style.display = "flex";
-    
-  } catch (err) {
-    logError(`Model initialization failed: ${err.message}`);
-    statusBanner.textContent = `❌ Error loading model: ${err.message}`;
-    statusBanner.style.backgroundColor = "#f8d7da";
-    statusBanner.style.color = "#721c24";
-    loadingContainer.style.display = "none";
-  }
-}
+	  try {
+		statusBanner.textContent = "⚙️ Downloading model parts... ⚙️";
+		statusBanner.style.backgroundColor = "#fff3cd";
+		statusBanner.style.color = "#856404";
+		
+		const startTime = performance.now();
+		
+		// Step 1: Load the manifest file to get information about the model parts
+		log("Loading model manifest...");
+		const manifestResponse = await fetch('./retfoundgreen.manifest.json');
+		if (!manifestResponse.ok) {
+		  throw new Error(`Failed to load manifest: ${manifestResponse.status} ${manifestResponse.statusText}`);
+		}
+		
+		const manifest = await manifestResponse.json();
+		log(`Found model split into ${manifest.chunks} parts, total size: ${(manifest.originalSize/1024/1024).toFixed(2)}MB`);
+		
+		// Step 2: Download all chunks in parallel
+		statusBanner.textContent = `⚙️ Downloading model (0/${manifest.chunks})... ⚙️`;
+		
+		// Create an array to hold all the ArrayBuffers from each part
+		const partArrayBuffers = [];
+		let downloadedParts = 0;
+		
+		// Download each part
+		const downloadPromises = manifest.parts.map(async (part, index) => {
+		  // Download a single part
+		  log(`Downloading part ${index + 1}/${manifest.chunks}...`);
+		  const partResponse = await fetch(`./${part.file}`);
+		  if (!partResponse.ok) {
+			throw new Error(`Failed to load part ${index + 1}: ${partResponse.status} ${partResponse.statusText}`);
+		  }
+		  
+		  const partBuffer = await partResponse.arrayBuffer();
+		  
+		  // Update progress
+		  downloadedParts++;
+		  statusBanner.textContent = `⚙️ Downloading model (${downloadedParts}/${manifest.chunks})... ⚙️`;
+		  
+		  // Store the part buffer at the correct index to maintain order
+		  partArrayBuffers[index] = partBuffer;
+		  log(`Downloaded part ${index + 1}, size: ${(partBuffer.byteLength/1024/1024).toFixed(2)}MB`);
+		});
+		
+		// Wait for all parts to download
+		await Promise.all(downloadPromises);
+		log("All parts downloaded successfully");
+		
+		// Step 3: Combine all parts into a single ArrayBuffer
+		statusBanner.textContent = "⚙️ Reassembling model... ⚙️";
+		log("Reassembling model parts...");
+		
+		// Create a new ArrayBuffer of the total size
+		const combinedBuffer = new ArrayBuffer(manifest.originalSize);
+		const combinedView = new Uint8Array(combinedBuffer);
+		
+		// Copy each part into the combined buffer at the correct position
+		let offset = 0;
+		for (const partBuffer of partArrayBuffers) {
+		  const partView = new Uint8Array(partBuffer);
+		  combinedView.set(partView, offset);
+		  offset += partBuffer.byteLength;
+		}
+		
+		log(`Reassembled complete model, total size: ${(combinedBuffer.byteLength/1024/1024).toFixed(2)}MB`);
+		
+		// Step 4: Create a blob from the combined buffer
+		const modelBlob = new Blob([combinedBuffer]);
+		const modelUrl = URL.createObjectURL(modelBlob);
+		log("Created model blob URL");
+		
+		// Step 5: Load the model using ONNX Runtime
+		statusBanner.textContent = "⚙️ Loading model into memory... ⚙️";
+		
+		// Configure ONNX Runtime with optimized settings
+		const options = {
+		  executionProviders: ['wasm'],
+		  graphOptimizationLevel: 'all',
+		  enableCpuMemArena: true,
+		  enableMemPattern: true,
+		  executionMode: 'sequential',
+		  numThreads: navigator.hardwareConcurrency > 4 ? 4 : 2
+		};
+		
+		// Load the model from the blob URL
+		log("Creating ONNX session from assembled model...");
+		modelSession = await ort.InferenceSession.create(modelUrl, options);
+		
+		// Step 6: Perform a warm-up run
+		statusBanner.textContent = "⚙️ Warming up model... ⚙️";
+		log("Performing model warm-up...");
+		
+		const dummyTensor = new ort.Tensor('float32', new Float32Array(3 * 392 * 392).fill(0), [1, 3, 392, 392]);
+		const dummyFeeds = { input: dummyTensor };
+		await modelSession.run(dummyFeeds);
+		modelWarmupDone = true;
+		
+		// Clean up the blob URL
+		URL.revokeObjectURL(modelUrl);
+		
+		// Record timing and update status
+		const loadTime = performance.now() - startTime;
+		logPerformance("Total model initialization time", loadTime);
+		
+		// Model is ready
+		modelReady = true;
+		statusBanner.textContent = "🤖 Ready for inference ⚡";
+		statusBanner.style.backgroundColor = "#eef6ef";
+		statusBanner.style.color = "#2d5f3a";
+		
+		// Hide loading spinner and show upload section
+		loadingContainer.style.display = "none";
+		uploadSection.style.display = "flex";
+		
+	  } catch (err) {
+		logError(`Model initialization failed: ${err.message}`);
+		statusBanner.textContent = `❌ Error loading model: ${err.message}`;
+		statusBanner.style.backgroundColor = "#f8d7da";
+		statusBanner.style.color = "#721c24";
+		loadingContainer.style.display = "none";
+	  }
+	}
 
 
     async function handleFile(file) {
