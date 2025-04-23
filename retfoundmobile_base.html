@@ -379,7 +379,7 @@
 <body>
   <div class="wrapper">
     <!-- Centered Logo -->
-    <img id="logo" src="logo.png" alt="RETFound-Green Logo">
+    <img id="logo" src="retfoundmobilelogo.png" alt="RETFound-Green Logo">
 
     <!-- Main content -->
     <div id="main-content">
@@ -569,92 +569,13 @@
         updatePredictions();
       }
     });
-
-async function initializeModel() {
+	async function initializeModel() {
   try {
-    statusBanner.textContent = "⚙️ Downloading model... ⚙️";
+    statusBanner.textContent = "⚙️ Preparing model... ⚙️";
     statusBanner.style.backgroundColor = "#fff3cd";
     statusBanner.style.color = "#856404";
     
     const startTime = performance.now();
-    
-    // Worker code as a string
-    const workerCode = `
-      // Web Worker for downloading the model
-      self.addEventListener('message', async function(e) {
-        const modelUrl = e.data.modelUrl;
-        
-        try {
-          self.postMessage({ status: 'downloading', message: 'Starting model download...' });
-          
-          // Use no-cors mode to bypass CORS restrictions
-          const response = await fetch(modelUrl, { mode: 'no-cors' });
-          
-          // Convert response to ArrayBuffer
-          const arrayBuffer = await response.arrayBuffer();
-          
-          // Send the ArrayBuffer back to the main thread
-          self.postMessage({ 
-            status: 'complete', 
-            arrayBuffer: arrayBuffer,
-            message: 'Model downloaded successfully'
-          }, [arrayBuffer]); // Transfer ownership for better performance
-        } catch (error) {
-          self.postMessage({ 
-            status: 'error', 
-            message: 'Error downloading model: ' + error.message 
-          });
-        }
-      });
-    `;
-    
-    // Create a blob URL for the worker
-    const workerBlob = new Blob([workerCode], { type: 'application/javascript' });
-    const workerUrl = URL.createObjectURL(workerBlob);
-    
-    // Create the worker using the blob URL
-    const worker = new Worker(workerUrl);
-    
-    // The GitHub release URL for your model
-    const modelUrl = 'https://github.com/justinengelmann/RETFound_Green/releases/download/v0.1_onnxbeta/retfoundgreen.onnx';
-    
-    // Create a promise to handle the worker's response
-    const modelArrayBuffer = await new Promise((resolve, reject) => {
-      worker.onmessage = function(e) {
-        const data = e.data;
-        
-        if (data.status === 'downloading') {
-          log(data.message);
-        } 
-        else if (data.status === 'complete') {
-          log(data.message);
-          resolve(data.arrayBuffer);
-        } 
-        else if (data.status === 'error') {
-          reject(new Error(data.message));
-        }
-      };
-      
-      worker.onerror = function(error) {
-        reject(new Error('Worker error: ' + error.message));
-      };
-      
-      // Start the download
-      worker.postMessage({ modelUrl: modelUrl });
-    });
-    
-    // Clean up the worker and its URL
-    worker.terminate();
-    URL.revokeObjectURL(workerUrl);
-    
-    // Create a Blob from the ArrayBuffer
-    const modelBlob = new Blob([modelArrayBuffer]);
-    
-    // Create an Object URL from the Blob
-    const modelObjectUrl = URL.createObjectURL(modelBlob);
-    
-    log("Model downloaded and converted to Object URL");
-    statusBanner.textContent = "⚙️ Preparing model... ⚙️";
     
     // Configure ONNX Runtime with optimized settings
     const options = {
@@ -666,8 +587,40 @@ async function initializeModel() {
       numThreads: navigator.hardwareConcurrency > 4 ? 4 : 2
     };
     
-    // Load the ONNX model from the Object URL
-    modelSession = await ort.InferenceSession.create(modelObjectUrl, options);
+    // Option 1: Try using public URL with CORS-Anywhere proxy
+    try {
+      log("Trying to load model with CORS proxy...");
+      // Use a CORS proxy if available (for testing only)
+      const corsProxy = "https://corsproxy.io/?";
+      const modelUrl = "https://github.com/justinengelmann/RETFound_Green/releases/download/v0.1_onnxbeta/retfoundgreen.onnx";
+      const proxyUrl = corsProxy + encodeURIComponent(modelUrl);
+      
+      modelSession = await ort.InferenceSession.create(proxyUrl, options);
+      log("Model loaded successfully via CORS proxy!");
+    } 
+    catch (proxyError) {
+      log("CORS proxy approach failed, trying direct load...");
+      
+      // Option 2: Try loading directly from a relative path
+      try {
+        log("Trying to load model from local path...");
+        modelSession = await ort.InferenceSession.create('./model.onnx', options);
+        log("Model loaded successfully from local path!");
+      } 
+      catch (localError) {
+        // Option 3: Try raw.githubusercontent.com if the model is in the repo
+        try {
+          log("Trying to load from raw.githubusercontent.com...");
+          const rawUrl = "https://raw.githubusercontent.com/justinengelmann/RETFound_Green/main/model.onnx";
+          modelSession = await ort.InferenceSession.create(rawUrl, options);
+          log("Model loaded successfully from raw GitHub URL!");
+        }
+        catch (rawError) {
+          // If all else fails, show helpful error message
+          throw new Error("Could not load model through any available method. Please ensure the model file is accessible.");
+        }
+      }
+    }
     
     // Perform warm-up run with dummy data
     const dummyTensor = new ort.Tensor('float32', new Float32Array(3 * 392 * 392).fill(0), [1, 3, 392, 392]);
@@ -676,9 +629,6 @@ async function initializeModel() {
     log("Performing model warm-up...");
     await modelSession.run(dummyFeeds);
     modelWarmupDone = true;
-    
-    // Clean up the Object URL to free memory
-    URL.revokeObjectURL(modelObjectUrl);
     
     const loadTime = performance.now() - startTime;
     logPerformance("Model initialization time", loadTime);
